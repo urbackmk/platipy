@@ -1,0 +1,19 @@
+{
+    "name": "Platypus page action by URL",
+    "version": "1.0",
+    "description": "Shows a page action for docs.python.org pages",
+    "background": {"scripts": ["background.js"]},
+    "page_action": 
+    {
+        "default_icon" : "icons/icon-20.png", 
+        "default_title": "Documentation Extension"
+    },
+    "permissions" : [
+        "tabs"
+    ],
+    "icons" : {
+        "48" : "icons/icon-48.png",
+        "128" : "icons/icon-128.png"
+    },
+    "manifest_version": 2
+}
