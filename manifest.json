@@ -2,12 +2,16 @@
     "name": "Platypus page action by URL",
     "version": "1.0",
     "description": "Shows a page action for docs.python.org pages",
-    "background": {"scripts": ["background.js"]},
+    "background": {
+        "scripts": ["eventPage.js"],
+        "persistent": false
+    },
     "page_action": 
     {
         "default_icon" : "icons/icon-20.png", 
         "default_title": "Documentation Extension"
     },
+    //tabs permission needed for icon to show in url bar
     "permissions" : [
         "tabs"
     ],
@@ -15,5 +19,11 @@
         "48" : "icons/icon-48.png",
         "128" : "icons/icon-128.png"
     },
-    "manifest_version": 2
+    "manifest_version": 2,
+    "content_scripts": [
+        {
+            "matches": ["http://docs.python.org/2/library/*"],
+            "js": ["myscript.js"]
+        }
+    ]
 }
