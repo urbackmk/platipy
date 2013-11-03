@@ -1,41 +1,27 @@
+// uses closure - the inner function saves the conditions under which it was created
+
 // displays an info icon for every h2 element
+// each icon is an event listener
 
-var newElements2 = document.getElementsByTagName('h2');
+var h2Elements = document.getElementsByTagName('h2');
 
-for (i = 0; i < newElements2.length; i++){
+for (i = 0; i < h2Elements.length; i++){
+    var h2Parent = h2Elements[i].parentNode;
     var image = document.createElement('img');
     image.setAttribute("src", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIR09SKvoCEVXv8o4RkMrumjOnC9GSyS1sPTxQhw0su3CogFwE2Q");
-    newElements2[i].appendChild(image);
+    image.addEventListener('click', onButtonClick(h2Parent), false);
+    h2Elements[i].appendChild(image);
+
 }
 
 
-// displays an iframe at the bottom of every section
+// displays an iframe at the bottom of the section that is clicked on
 
-var newElements3 = document.getElementsByClassName('section');
-
-for (i = 0; i < newElements3.length; i++) {
-    var iframe = document.createElement('iframe');
-    iframe.setAttribute("src", "http://en.wikipedia.org/wiki/Platypus");
-    iframe.width = "750 px";
-    newElements3[i].appendChild(iframe);
+function onButtonClick(h2Parent){
+    return function(){
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute("src", "http://en.wikipedia.org/wiki/Platypus");
+        iframe.width = "750px";
+        h2Parent.appendChild(iframe);
+    };
 }
-
-// trying to display an image button which loads an iframe instead of a static image
-
-// function createButton(context, func){
-//     var button = document.createElement('input');
-//     button.type = "button";
-//     button.image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIR09SKvoCEVXv8o4RkMrumjOnC9GSyS1sPTxQhw0su3CogFwE2Q";
-//     button.onclick = func;
-//     context.appendChild(button);
-// }
-
-// function onButtonClick(){
-//     var iframe = document.createElement('iframe');
-//     iframe.setAttribute("src", "http://www.meghanurback.com");
-//     newElements2.appendChild(iframe);
-// }
-
-// for (i = 0; i < newElements2.length; i++){
-//     createButton(newElements2, onButtonClick);
-// }
