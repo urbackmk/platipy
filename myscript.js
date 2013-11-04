@@ -1,6 +1,6 @@
 // uses closure - the inner function saves the conditions under which it was created
 
-// displays an info icon for every h2 element
+// displays an info icon at the beginning of every h2 element
 // each icon is an event listener
 
 var h2Elements = document.getElementsByTagName('h2');
@@ -10,7 +10,7 @@ for (i = 0; i < h2Elements.length; i++){
     var image = document.createElement('img');
     image.setAttribute("src", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIR09SKvoCEVXv8o4RkMrumjOnC9GSyS1sPTxQhw0su3CogFwE2Q");
     image.addEventListener('click', onButtonClick(h2Parent), false);
-    h2Elements[i].appendChild(image);
+    h2Elements[i].insertBefore(image, h2Elements[i].childNodes[0]);
 
 }
 
