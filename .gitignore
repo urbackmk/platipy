@@ -1,6 +1,7 @@
 .DS_Store
 env
 plan_of_action.txt
+templates/test.txt
 config.py
 *.pyc
 *.db

@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Foreign
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 import config
-
+import datetime
 
 engine = create_engine(config.DB_URL, echo=False)
 session = scoped_session(sessionmaker(bind=engine, autocommit = False, autoflush = False))
@@ -15,7 +15,7 @@ class Comment(Base):
     id = Column(Integer, primary_key = True)
     section_id = Column(String(64), ForeignKey('sections.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
-    date = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.datetime.now())
     comment = Column(String(255))
     num_responses = Column(Integer)
 
@@ -54,4 +54,7 @@ def create_tables():
 
 if __name__ == "__main__":
     create_tables()
+
+
+# server_default=text('sqlite datetime text') - database is keeper of what clock is
 
