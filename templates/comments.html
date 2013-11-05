@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% block body %}
 
-    <form>
-        <input type="text" class="form-control">
+    <form method="POST">
+        <input type="text" name="comment" class="form-control">
         <input type="submit" value="Submit">
     </form>
 
     {% if section_comments %}
         <ul>
             {% for comment in section_comments %}
-                <li>{{comment.comment}}</li>
+                <li>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment}}</li>
             {% endfor %}
         </ul>
     {% endif %}
