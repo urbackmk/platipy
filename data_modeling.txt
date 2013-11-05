@@ -8,7 +8,7 @@ comment table
 
 section
     - id (INT primary key)
-    - html section (string from html)
+    - html section (string id from DOM)
     - site id (foreign key)
     - number of favorites
     - (could also add number of comments)
