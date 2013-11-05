@@ -16,11 +16,12 @@ for (i = 0; i < h2Elements.length; i++){
 
 
 // displays an iframe at the bottom of the section that is clicked on
+// passes the section id into the url
 
 function onButtonClick(h2Parent){
     return function(){
         var iframe = document.createElement('iframe');
-        iframe.setAttribute("src", "http://en.wikipedia.org/wiki/Platypus");
+        iframe.setAttribute("src", "http://localhost:5000/" + h2Parent.id);
         iframe.width = "750px";
         h2Parent.appendChild(iframe);
     };

@@ -1,0 +1,59 @@
+comment table
+    - id (INT primary key)
+    - section id (string foreign key)
+    - user id (INT foreign key)
+    - date (datetime)
+    - comment (string)
+    - (number of responses)
+
+section
+    - id (INT primary key)
+    - html section (string from html)
+    - site id (foreign key)
+    - number of favorites
+    - (could also add number of comments)
+
+(could treat a response like a comment
+    - instead of a section id it would just have a comment id
+    - something to distinguish between comment and response
+        - if response id is empty, it's a top-level comment)
+
+user 
+    - id (INT primary key)
+    - github name (string)
+
+favorites
+    - id (INT primary key)
+    - section id (foreign key)
+    - user id (foreign key)
+
+sites
+    - id (INT primary key)
+    - url (string)
+    - (maybe the name of the site)
+
+
+one to many - two tables
+    - foreign key on many side
+
+users to favorites (one to many)
+users to comments (one to many)
+section to comments (one to many)
+
+
+comment to responses (one to many)
+    - wouldn't need a response table  
+
+
+
+
+
+
+(maybe i would later want a user view)
+    - which i would need to store favorites in user table
+
+
+sqlite commands 
+    - create table comments(id INTEGER PRIMARY KEY, section_id varchar(30), user_id INT, date DATETIME, comment varchar(255))
+    - insert into comments (section_id, user_id, date, comment) VALUES (...)
+

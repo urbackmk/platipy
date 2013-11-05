@@ -1,0 +1,6 @@
+SQLAlchemy==0.8.3
+Flask==0.10.1
+Flask-Login==0.2.7
+Flask-Markdown==0.3
+Flask-WTF==0.9.3
+WTForms==1.0.5

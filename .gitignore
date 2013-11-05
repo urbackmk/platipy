@@ -1,2 +1,7 @@
 .DS_Store
-.env
+env
+plan_of_action.txt
+config.py
+*.pyc
+*.db
+.*.swp
