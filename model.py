@@ -13,14 +13,14 @@ class Comment(Base):
     __tablename__ = "comments"
 
     id = Column(Integer, primary_key = True)
-    section_id = Column(String(64), ForeignKey('sections.id'))
+    section_id = Column(Integer, ForeignKey('sections.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.datetime.now())
     comment = Column(String(255))
     num_responses = Column(Integer)
 
-    user = relationship("User")
-    section = relationship("Section")
+    user = relationship("User", backref="comment")
+    section = relationship("Section", backref="comment")
 
 class Section(Base):
     __tablename__ = "sections"
@@ -28,7 +28,7 @@ class Section(Base):
     id = Column(Integer, primary_key = True)
     html_section = Column(String(60))
     site_id = Column(ForeignKey('sites.id'))
-    num_favorites = Column(Integer)
+    num_favorites = Column(Integer, default=0)
 
 class User(Base):
     __tablename__ = "users"

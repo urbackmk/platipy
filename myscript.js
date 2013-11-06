@@ -24,7 +24,7 @@ for (i = 0; i < h2Elements.length; i++){
 }
 
 // displays an iframe at the bottom of the section that is clicked on
-// passes the section id into the url
+// passes the DOM section id into the url
 function onInfoButtonClick(h2Parent){
     return function(){
         var iframe = document.createElement('iframe');

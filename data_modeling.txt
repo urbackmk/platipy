@@ -1,6 +1,6 @@
 comment table
     - id (INT primary key)
-    - section id (string foreign key)
+    - section id (INT foreign key)
     - user id (INT foreign key)
     - date (datetime)
     - comment (string)

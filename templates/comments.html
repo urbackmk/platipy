@@ -6,12 +6,10 @@
         <input type="submit" value="Submit">
     </form>
 
-    {% if section_comments %}
         <ul>
             {% for comment in section_comments %}
                 <li>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment}}</li>
             {% endfor %}
         </ul>
-    {% endif %}
     
 {% endblock %}
