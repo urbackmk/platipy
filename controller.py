@@ -37,11 +37,11 @@ def make_comment(htmlsection):
 
 # updates favorites table with section id and user id
 # updates section table with number of favorites for the section
-# @app.route("/favorite/<htmlsection>/<userid>", methods=["POST"])
-# def set_favorite(htmlsection, userid):
-#     section_id = model.session.query(model.Session).filter_by(html_section=htmlsection)
+@app.route("/favorite/<htmlsection>/<userid>", methods=["POST"])
+def set_favorite(htmlsection, userid):
+    section_id = model.session.query(model.Session).filter_by(html_section=htmlsection)
 
-#     new_favorite = model.Favorite(section_id=section_id, user_id=userid)
+    new_favorite = model.Favorite(section_id=section_id, user_id=userid)
 
 @app.template_filter("datefilter")
 def datefilter(dt):

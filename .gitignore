@@ -1,5 +1,6 @@
 .DS_Store
 env
+notes.txt
 plan_of_action.txt
 templates/test.txt
 config.py
