@@ -5,9 +5,10 @@ import datetime
 app = Flask(__name__)
 
 
-@app.route("/comment/<html_section>")
-def show_comments(html_section):
-    userId = getUserId()
+@app.route("/comment/")
+def show_comments():
+    html_section = request.args.get("html_section")
+    userId = get_user_id()
     section = model.session.query(model.Section).filter_by(html_section=html_section).first()
     favorite = None
     if section:
@@ -16,8 +17,9 @@ def show_comments(html_section):
     return render_template("comments.html", section=section, favorite=favorite, html_section=html_section)
 
 # hardcoded user id to always be user 1 for now
-@app.route("/comment/<html_section>", methods=["POST"])
-def make_comment(html_section):
+@app.route("/comment/", methods=["POST"])
+def make_comment():
+    html_section = request.args.get("html_section")
     comment = request.form.get("comment")
     section = get_section_object(html_section)
 
@@ -33,7 +35,7 @@ def set_favorite():
 
     html_section= request.form.get("html_section")
     section = get_section_object(html_section)
-    user_id = getUserId()
+    user_id = get_user_id()
 
     new_favorite = model.Favorite(section_id=section.id, user_id=user_id)
     section.num_favorites += 1
@@ -55,7 +57,7 @@ def get_section_object(html_section):
         model.session.commit()
         return new_section
 
-def getUserId():
+def get_user_id():
     userId = 1
     return userId
 
