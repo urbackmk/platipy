@@ -2,6 +2,7 @@
 
 // displays an info icon at the beginning of every h2 element
 // the info icon is an event listener
+console.log('hi');
 
 var h2Elements = document.getElementsByTagName('h2');
 url = window.location.href;

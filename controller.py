@@ -31,16 +31,24 @@ def make_comment():
 
 @app.route("/favorite", methods=["POST"])
 def set_favorite():
-    """updates favorites table with section id and user id and updates section table with number of favorites"""
+    """updates favorites table with section id and user id 
+    and updates section table with number of favorites"""
 
     html_section= request.form.get("html_section")
     section = get_section_object(html_section)
     user_id = get_user_id()
+    favorited_status = request.form.get("favorited_status")
 
-    new_favorite = model.Favorite(section_id=section.id, user_id=user_id)
-    section.num_favorites += 1
-    model.session.add(new_favorite)
-    model.session.commit()
+    if favorited_status == "false":
+        new_favorite = model.Favorite(section_id=section.id, user_id=user_id)
+        section.num_favorites += 1
+        model.session.add(new_favorite)
+        model.session.commit()
+    else:
+        favorite = model.session.query(model.Favorite).filter_by(user_id=user_id, section_id=section.id).first()
+        model.session.delete(favorite)
+        section.num_favorites -= 1
+        model.session.commit()
 
     return redirect(url_for('show_comments', html_section=html_section))
 
