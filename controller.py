@@ -2,6 +2,10 @@ from flask import Flask, render_template, request, redirect, flash, session, url
 import model
 import datetime
 
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
+
 app = Flask(__name__)
 
 
@@ -52,6 +56,25 @@ def set_favorite():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
+@app.route("/vote", methods=["POST"])
+def vote():
+    """adjusts rating of a comment according to upvote or downvote"""
+
+    comment_id = request.form.get("comment_id")
+    vote = request.form.get("vote")
+    html_section = request.form.get("html_section")
+    comment = model.session.query(model.Comment).filter_by(id=comment_id).first()
+
+    if vote == "up":
+        comment.rating += 1
+        model.session.commit()
+    elif vote == "down":
+        comment.rating -= 1
+        model.session.commit()
+
+    return redirect(url_for('show_comments', html_section=html_section))
+    
+
 def get_section_object(html_section):
     """takes in html_section hash and sees if the section object exists.
     if it exists, return the object.  if it does not, create and return the object"""
@@ -72,6 +95,10 @@ def get_user_id():
 @app.template_filter("datefilter")
 def datefilter(dt):
     return dt.strftime("%d %B %Y")
+
+@app.template_filter("codefilter")
+def codefilter(incoming_string):
+    return highlight(incoming_string, PythonLexer(), HtmlFormatter())
 
 if __name__=="__main__":
     app.run(debug=True)

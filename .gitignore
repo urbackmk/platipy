@@ -1,6 +1,7 @@
 .DS_Store
 env
 notes.txt
+feature_notes.txt
 plan_of_action.txt
 templates/test.txt
 config.py

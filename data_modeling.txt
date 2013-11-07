@@ -4,7 +4,7 @@ comments
     - user_id (INT foreign key)
     - created_at (datetime)
     - comment (string)
-    - number of responses(INT)
+    - rating (INT)
 
 sections
     - id (INT primary key)
@@ -27,11 +27,10 @@ favorites
     - section_id (INT foreign key)
     - user_id (INT foreign key)
 
-sites
+sites (maybe not necessary)
     - id (INT primary key)
     - url (string)
     - (maybe the name of the site)
-
 
 one to many - two tables
     - foreign key on many side

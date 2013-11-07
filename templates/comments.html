@@ -21,8 +21,8 @@
         {% endif %}
 
 
-        <form method="POST" style="float: left; padding-left: 10px;">
-            <input type="text" name="comment" class="form-control">
+        <form method="POST" style="padding-left: 10px;">
+            <textarea name="comment" class="form-control" rows="10" cols="300"></textarea>
             <input type="submit" value="Submit">
         </form>
     </div>
@@ -33,11 +33,20 @@
         </br>
         </br>
         </br>
-        <ul>
-            {% for comment in section.comment %}
-                <li>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment}}</li>
-            {% endfor %}
-        </ul>
+        {% for comment in section.comment %}
+            <form method="POST" action="/vote">
+                <input type="hidden" name="comment_id" value="{{comment.id}}"></input>
+                <input type="hidden" name="html_section" value="{{html_section}}"> </input>
+                <button type="submit" class-"btn btn-default btn-sm" name="vote" value="up">
+                    <span class="glyphicon glyphicon-circle-arrow-up"></span>
+                </button>
+                <button type="submit" class-"btn btn-default btn-sm" name="vote" value="down">
+                    <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                </button>
+            </form>
+            {{comment.rating}}
+            <p>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment}}</p>
+        {% endfor %}
     </div>
 
 {% endblock %}
