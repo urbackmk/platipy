@@ -4,44 +4,60 @@ import datetime
 
 app = Flask(__name__)
 
-# section.comment is a list of object comments
-@app.route("/<htmlsection>")
-def show_comments(htmlsection):
-    section = model.session.query(model.Section).filter_by(html_section=htmlsection).first()
-    section_comments = []
-    if section:
-        section_comments = section.comment
-    return render_template("comments.html", section_comments=section_comments)
 
-# hardcoded user id to always be user 1 and site_id 1 for now
-@app.route("/<htmlsection>", methods=["POST"])
-def make_comment(htmlsection):
-    comment = request.form.get("comment")
-    section = model.session.query(model.Section).filter_by(html_section=htmlsection).first()
+@app.route("/comment/<html_section>")
+def show_comments(html_section):
+    userId = getUserId()
+    section = model.session.query(model.Section).filter_by(html_section=html_section).first()
+    favorite = None
     if section:
-        new_comment = model.Comment(comment=comment, section_id=section.id, user_id=1)
-        model.session.add(new_comment)
-        model.session.commit()
+        favorite = model.session.query(model.Favorite).filter_by(user_id=userId, section_id=section.id).first()
+
+    return render_template("comments.html", section=section, favorite=favorite, html_section=html_section)
+
+# hardcoded user id to always be user 1 for now
+@app.route("/comment/<html_section>", methods=["POST"])
+def make_comment(html_section):
+    comment = request.form.get("comment")
+    section = get_section_object(html_section)
+
+    new_comment = model.Comment(comment=comment, section_id=section.id, user_id=1)
+    model.session.add(new_comment)
+    model.session.commit()
+
+    return redirect(url_for('show_comments', html_section=html_section))
+
+@app.route("/favorite", methods=["POST"])
+def set_favorite():
+    """updates favorites table with section id and user id and updates section table with number of favorites"""
+
+    html_section= request.form.get("html_section")
+    section = get_section_object(html_section)
+    user_id = getUserId()
+
+    new_favorite = model.Favorite(section_id=section.id, user_id=user_id)
+    section.num_favorites += 1
+    model.session.add(new_favorite)
+    model.session.commit()
+
+    return redirect(url_for('show_comments', html_section=html_section))
+
+def get_section_object(html_section):
+    """takes in html_section hash and sees if the section object exists.
+    if it exists, return the object.  if it does not, create and return the object"""
+
+    section = model.session.query(model.Section).filter_by(html_section=html_section).first()
+    if section:
+        return section
     else:
-        new_section = model.Section(html_section=htmlsection, site_id=1)
+        new_section = model.Section(html_section=html_section)
         model.session.add(new_section)
         model.session.commit()
+        return new_section
 
-        section = model.session.query(model.Section).filter_by(html_section=htmlsection).first()
-        new_comment = model.Comment(comment=comment, section_id=section.id, user_id=1)
-        model.session.add(new_comment)
-        model.session.commit()
-
-    return redirect(url_for('show_comments', htmlsection=htmlsection))
-
-
-# updates favorites table with section id and user id
-# updates section table with number of favorites for the section
-@app.route("/favorite/<htmlsection>/<userid>", methods=["POST"])
-def set_favorite(htmlsection, userid):
-    section_id = model.session.query(model.Session).filter_by(html_section=htmlsection)
-
-    new_favorite = model.Favorite(section_id=section_id, user_id=userid)
+def getUserId():
+    userId = 1
+    return userId
 
 @app.template_filter("datefilter")
 def datefilter(dt):

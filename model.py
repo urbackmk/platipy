@@ -43,6 +43,8 @@ class Favorite(Base):
     section_id = Column(Integer, ForeignKey('sections.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
 
+    section = relationship("Section", backref="favorite")
+
 class Site(Base):
     __tablename__ = "sites"
 

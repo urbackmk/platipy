@@ -4,7 +4,22 @@
 // displays a white star icon at the end of every h2 element
 // the info icon is an event listener
 
+
+// hash function taken from: http://erlycoder.com/49/javascript-hash-functions-to-convert-string-into-integer-hash-
+function hashCode(str){
+    var hash = 0;
+    if (str.length === 0) return hash;
+    for (i = 0; i < str.length; i++) {
+        char = str.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
+
 var h2Elements = document.getElementsByTagName('h2');
+url = window.location.href;
 
 for (i = 0; i < h2Elements.length; i++){
     var h2Parent = h2Elements[i].parentNode;
@@ -28,8 +43,13 @@ for (i = 0; i < h2Elements.length; i++){
 function onInfoButtonClick(h2Parent){
     return function(){
         var iframe = document.createElement('iframe');
-        iframe.setAttribute("src", "http://localhost:5000/" + h2Parent.id);
+
+        var hashedURL = hashCode(url + "#" + h2Parent.id);
+
+        iframe.setAttribute("src", "http://localhost:5000/comment/" + hashedURL);
         iframe.width = "750px";
+        iframe.height = "300px";
+        iframe.frameBorder=0;
         h2Parent.appendChild(iframe);
     };
 }

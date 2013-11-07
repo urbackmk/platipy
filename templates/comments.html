@@ -1,15 +1,38 @@
 {% extends 'base.html' %}
 {% block body %}
+    <div>
+    {% if section %}
+        {{section.num_favorites}}
+    {% else %}
+        0
+    {% endif %}
+    {% if favorite %}
+        <img src="/static/images/yellow_star.png">
+    {% else %}
+        <form method="POST" action="/favorite">
+            <input type="hidden" name="html_section" value="{{html_section}}"> </input>
+            <input type="image" src="/static/images/white_star.png" id="white_star" style="float: left">  
+        </form>
+    {% endif %}
 
-    <form method="POST">
+
+    <form method="POST" style="float: left; padding-left: 10px;">
         <input type="text" name="comment" class="form-control">
         <input type="submit" value="Submit">
     </form>
+    </div>
 
-        <ul>
-            {% for comment in section_comments %}
-                <li>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment}}</li>
-            {% endfor %}
-        </ul>
-    
+    <div>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    <ul>
+        {% for comment in section.comment %}
+            <li>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment}}</li>
+        {% endfor %}
+    </ul>
+    </div>
+
 {% endblock %}
