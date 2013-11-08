@@ -45,7 +45,7 @@
                 </button>
             </form>
             {{comment.rating}}
-            <p>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment}}</p>
+            <p>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment|codefilter|safe}}</p>
         {% endfor %}
     </div>
 

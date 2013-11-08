@@ -5,6 +5,7 @@ import datetime
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
+from pygments.styles import get_style_by_name
 
 app = Flask(__name__)
 
@@ -98,6 +99,7 @@ def datefilter(dt):
 
 @app.template_filter("codefilter")
 def codefilter(incoming_string):
+    HtmlFormatter(style="colorful").style
     return highlight(incoming_string, PythonLexer(), HtmlFormatter())
 
 if __name__=="__main__":
