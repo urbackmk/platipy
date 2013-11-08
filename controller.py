@@ -49,26 +49,34 @@ def obtain_access_token():
 def fetch_github_login():
     """Access a protected resource"""
     github=OAuth2Session(client_id, token=session['oauth_token'])
-    github_login = github.get('https://api.github.com/user').json()["login"]
+    session['github_login'] = github.get('https://api.github.com/user').json()["login"]
     json_user_profile = jsonify(github.get('https://api.github.com/user').json())
 
-    return github_login
+    return session['github_login']
 
 
 # this is the github authorization callback url
 @app.route("/comment/")
 def show_comments():
     html_section = request.args.get("html_section")
-    userId = get_user_id()
+    user_id = get_user_id()
     section = model.Section.from_html_section(html_section)    
     
     favorite = None
     if section:
         favorite = model.session.query(model.Favorite).filter_by(
-            user_id=userId, section_id=section.id).first()
+            user_id=user_id, section_id=section.id).first()
 
-    obtain_access_token()
-    github_login = fetch_github_login()
+    github_login = None
+
+    if session.get('oauth_state') and session.get('github_login'):
+        github_login = session['github_login']
+    elif session.get('oauth_state'):
+        obtain_access_token()
+        github_login = fetch_github_login()
+    # else:
+    #     return render_template("not_logged_in.html", 
+    #         section=section, favorite=favorite, html_section=html_section)
 
     return render_template(
         "comments.html",
@@ -107,7 +115,8 @@ def set_favorite():
         model.session.add(new_favorite)
         model.session.commit()
     else:
-        favorite = model.session.query(model.Favorite).filter_by(user_id=user_id, section_id=section.id).first()
+        favorite = model.session.query(model.Favorite).filter_by(
+            user_id=user_id, section_id=section.id).first()
         model.session.delete(favorite)
         section.num_favorites -= 1
         model.session.commit()
@@ -134,8 +143,11 @@ def vote():
     
 
 def get_user_id():
-    userId = 1
-    return userId
+    user_id = 1
+    return user_id
+
+def get_user_name():
+    return user_name
 
 @app.template_filter("datefilter")
 def datefilter(dt):
