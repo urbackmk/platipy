@@ -2,14 +2,60 @@ from flask import Flask, render_template, request, redirect, flash, session, url
 import model
 import datetime
 
+from requests_oauthlib import OAuth2Session
+from flask.json import jsonify
+import os
+import config
+
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
 from pygments.styles import get_style_by_name
 
+import json
+
 app = Flask(__name__)
 
+client_id = config.client_id
+client_secret = config.client_secret
+authorization_base_url = 'https://github.com/login/oauth/authorize'
+token_url = 'https://github.com/login/oauth/access_token'
 
+# Call this when a user pushes a Sign In to Github button
+@app.route("/authenticate")
+def authenticate():
+    """Step 1: User Authentication
+    Redirect the user/resource owner to the OAuth provider
+    using a URL with a few key OAuth parameters. """
+
+    github = OAuth2Session(client_id)
+    authorization_url, state = github.authorization_url(authorization_base_url)
+
+    # State is used to prevent CSRF, keep this for later
+    session['oauth_state'] = state
+    return redirect(authorization_url)
+
+def obtain_access_token():
+    """Use an authorization code to obtain an access token
+     and store the access token in the browser session"""
+
+    github = OAuth2Session(client_id, state=session['oauth_state'])
+    token = github.fetch_token(
+        token_url, client_secret=client_secret, authorization_response=request.url)
+
+    # At this point you can fetch protected resources
+    session['oauth_token'] = token
+
+def fetch_github_login():
+    """Access a protected resource"""
+    github=OAuth2Session(client_id, token=session['oauth_token'])
+    github_login = github.get('https://api.github.com/user').json()["login"]
+    json_user_profile = jsonify(github.get('https://api.github.com/user').json())
+
+    return github_login
+
+
+# this is the github authorization callback url
 @app.route("/comment/")
 def show_comments():
     html_section = request.args.get("html_section")
@@ -21,11 +67,15 @@ def show_comments():
         favorite = model.session.query(model.Favorite).filter_by(
             user_id=userId, section_id=section.id).first()
 
+    obtain_access_token()
+    github_login = fetch_github_login()
+
     return render_template(
         "comments.html",
         section=section,
         favorite=favorite,
         html_section=html_section,
+        github_login=github_login
         )
 
 # hardcoded user id to always be user 1 for now
@@ -97,5 +147,9 @@ def codefilter(incoming_string):
     return highlight(incoming_string, PythonLexer(), HtmlFormatter())
 
 if __name__=="__main__":
+    # This allows us to use a plain HTTP callback
+    os.environ['DEBUG'] = "1"
+
+    app.secret_key = os.urandom(24)
     app.run(debug=True)
 

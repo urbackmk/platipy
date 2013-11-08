@@ -1,45 +1,66 @@
 {% extends 'base.html' %}
 {% block body %}
+    <button type="submit" class="btn btn-default btn-sm" formaction="/authenticate" name="authenticate">
+        Sign in to github
+    </button>
+    Logged in to github as: {{github_login}}
+    </br>
+
     <div>
-        {% if section %}
-            {{section.num_favorites}}
-        {% else %}
-            0
-        {% endif %}
+        <div style="float: left">
+            {% if section %}
+                {{section.num_favorites}}
+            {% else %}
+                0
+            {% endif %}
+        </div>
         {% if favorite %}
             <form method="POST" action="/favorite">
                 <input type="hidden" name="html_section" value="{{html_section}}"> </input>
                 <input type="hidden" name="favorited_status" value="true"></input>
-                <input type="image" src="/static/images/yellow_star.png" id="yellow_star" style="float: left">  
+                <button type="submit" class="btn btn-default btn-xs" id="yellow_star" style="float:left">
+                    <span class="glyphicon glyphicon-star"></span>
+                </button> 
             </form>
         {% else %}
             <form method="POST" action="/favorite">
                 <input type="hidden" name="html_section" value="{{html_section}}"> </input>
                 <input type="hidden" name="favorited_status" value="false"></input>
-                <input type="image" src="/static/images/white_star.png" id="white_star" style="float: left">  
+                <button type="submit" class="btn btn-default btn-xs" id="white_star" style="float: left">
+                    <span class="glyphicon glyphicon-star-empty">
+                </button>
             </form>
         {% endif %}
 
         <form method="POST" style="padding-left: 10px;">
             <textarea name="comment" class="form-control" rows="3" cols="300"></textarea>
-            <input type="submit" value="Submit">
+            <button type="submit" class="btn btn-default btn-sm">
+                Submit
+            </button>
         </form>
     </div>
 
     <div>
+
         {% for comment in section.comment %}
-            <form method="POST" action="/vote">
-                <input type="hidden" name="comment_id" value="{{comment.id}}"></input>
-                <input type="hidden" name="html_section" value="{{html_section}}"> </input>
-                <button type="submit" class-"btn btn-default btn-sm" name="vote" value="up">
-                    <span class="glyphicon glyphicon-circle-arrow-up"></span>
-                </button>
-                <button type="submit" class-"btn btn-default btn-sm" name="vote" value="down">
-                    <span class="glyphicon glyphicon-circle-arrow-down"></span>
-                </button>
-            </form>
-            {{comment.rating}}
-            <p>{{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment|codefilter|safe}}</p>
+            <div>
+                <div style="float: left">
+                    {{comment.rating}}
+                </div>
+                <div style="float: left">
+                    <form method="POST" action="/vote">
+                        <input type="hidden" name="comment_id" value="{{comment.id}}"></input>
+                        <input type="hidden" name="html_section" value="{{html_section}}"> </input>
+                        <button type="submit" class="btn btn-default btn-xs" name="vote" value="up">
+                            <span class="glyphicon glyphicon-circle-arrow-up"></span>
+                        </button>
+                        <button type="submit" class="btn btn-default btn-xs" name="vote" value="down">
+                            <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                        </button>
+                    </form>
+                </div>
+                {{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment|codefilter|safe}}
+            </div>
         {% endfor %}
     </div>
 
