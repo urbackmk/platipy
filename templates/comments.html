@@ -20,19 +20,13 @@
             </form>
         {% endif %}
 
-
         <form method="POST" style="padding-left: 10px;">
-            <textarea name="comment" class="form-control" rows="10" cols="300"></textarea>
+            <textarea name="comment" class="form-control" rows="3" cols="300"></textarea>
             <input type="submit" value="Submit">
         </form>
     </div>
 
     <div>
-        </br>
-        </br>
-        </br>
-        </br>
-        </br>
         {% for comment in section.comment %}
             <form method="POST" action="/vote">
                 <input type="hidden" name="comment_id" value="{{comment.id}}"></input>

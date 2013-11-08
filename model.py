@@ -30,6 +30,18 @@ class Section(Base):
     site_id = Column(ForeignKey('sites.id'))
     num_favorites = Column(Integer, default=0)
 
+    @classmethod
+    def from_html_section(cls, html_section):
+        section = session.query(cls).filter_by(html_section=html_section).first()
+        if section:
+            return section
+        else:
+            new_section = cls(html_section=html_section)
+            session.add(new_section)
+            session.commit()
+            return new_section
+
+
 class User(Base):
     __tablename__ = "users"
 
