@@ -75,12 +75,6 @@ def show_comments():
     else:
         github_name = None
 
-    print github_name
-
-    # else:
-    #     return render_template("not_logged_in.html", 
-    #         section=section, favorite=favorite, html_section=html_section)
-
     return render_template(
         "comments.html",
         section=section,
@@ -165,7 +159,6 @@ def datefilter(dt):
 
 @app.template_filter("codefilter")
 def codefilter(incoming_string):
-    HtmlFormatter(style="colorful").style
     return highlight(incoming_string, PythonLexer(), HtmlFormatter())
 
 if __name__=="__main__":
