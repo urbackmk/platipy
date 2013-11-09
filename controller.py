@@ -46,13 +46,13 @@ def obtain_access_token():
     # At this point you can fetch protected resources
     session['oauth_token'] = token
 
-def fetch_github_login():
+def fetch_github_name():
     """Access a protected resource"""
     github=OAuth2Session(client_id, token=session['oauth_token'])
-    session['github_login'] = github.get('https://api.github.com/user').json()["login"]
+    session['github_name'] = github.get('https://api.github.com/user').json()["login"]
     json_user_profile = jsonify(github.get('https://api.github.com/user').json())
 
-    return session['github_login']
+    return session['github_name']
 
 
 # this is the github authorization callback url
@@ -67,13 +67,16 @@ def show_comments():
         favorite = model.session.query(model.Favorite).filter_by(
             user_id=user_id, section_id=section.id).first()
 
-    github_login = None
-
-    if session.get('oauth_state') and session.get('github_login'):
-        github_login = session['github_login']
+    if session.get('oauth_state') and session.get('github_name'):
+        github_name = session['github_name']
     elif session.get('oauth_state'):
         obtain_access_token()
-        github_login = fetch_github_login()
+        github_name = fetch_github_name()
+    else:
+        github_name = None
+
+    print github_name
+
     # else:
     #     return render_template("not_logged_in.html", 
     #         section=section, favorite=favorite, html_section=html_section)
@@ -83,7 +86,7 @@ def show_comments():
         section=section,
         favorite=favorite,
         html_section=html_section,
-        github_login=github_login
+        github_name=github_name
         )
 
 # hardcoded user id to always be user 1 for now
@@ -143,11 +146,18 @@ def vote():
     
 
 def get_user_id():
-    user_id = 1
-    return user_id
+    if session.get('github_name'):
+        github_name = session['github_name']
+        user = model.session.query(model.User).filter_by(github_name=github_name).first()
 
-def get_user_name():
-    return user_name
+        if user:
+            return user.id
+        else:
+            user = model.User(github_name=github_name)
+            model.session.add(user)
+            model.session.commit
+            return user.id
+    return None
 
 @app.template_filter("datefilter")
 def datefilter(dt):

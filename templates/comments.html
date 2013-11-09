@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block body %}
-    {% if github_login == None %}
+    {% if github_name == None %}
     <form action="/authenticate">
         <button type="submit" class="btn btn-default btn-sm">
             Sign in to github
         </button>
     </form>
     {% else %}
-    Logged in to github as: {{github_login}}   
+    Logged in to github as: {{github_name}}   
     {% endif %}
 
     </br>
@@ -65,7 +65,7 @@
                         </button>
                     </form>
                 </div>
-                {{comment.created_at|datefilter}} by userid {{comment.user_id}}: {{comment.comment|codefilter|safe}}
+                {{comment.created_at|datefilter}} by {{comment.user.github_name}}: {{comment.comment|codefilter|safe}}
             </div>
         {% endfor %}
     </div>
