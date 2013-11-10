@@ -2,7 +2,6 @@
 
 // displays an info icon at the beginning of every h2 element
 // the info icon is an event listener
-console.log('hi');
 
 var h2Elements = document.getElementsByTagName('h2');
 url = window.location.href;
@@ -17,19 +16,29 @@ for (i = 0; i < h2Elements.length; i++){
 
 }
 
-// displays an iframe at the bottom of the section that is clicked on
-// passes the DOM section id into the url
+/**
+ * if there is not already an iframe:
+ * display an iframe at the bottom of the section that is clicked on
+ * and pass the document section into the URL
+ * if there is already an iframe:
+ * remove the iframe element
+ */
 function onInfoButtonClick(h2Parent){
     return function(){
-        var iframe = document.createElement('iframe');
-        var encodedURL = encodeURIComponent(url + "#" + h2Parent.id);
+        var iframeId = h2Parent.id + "ihgfjhfdfjf";
+        var iframe = document.getElementById(iframeId);
+        if (!iframe){
+            iframe = document.createElement('iframe');
+            var encodedURL = encodeURIComponent(url + "#" + h2Parent.id);
 
-        iframe.setAttribute("src", "http://localhost:5000/comment/?html_section=" + encodedURL);
-        iframe.width = "750px";
-        iframe.height = "300px";
-        iframe.frameBorder=0;
-        h2Parent.appendChild(iframe);
+            iframe.setAttribute("src", "http://localhost:5000/comment/?html_section=" + encodedURL);
+            iframe.setAttribute("id", iframeId);
+            iframe.width = "750px";
+            iframe.height = "300px";
+            iframe.frameBorder=0;
+            h2Parent.appendChild(iframe);
+        } else {
+            iframe.parentNode.removeChild(iframe);
+        }
     };
 }
-
-
