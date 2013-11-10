@@ -50,7 +50,6 @@ def fetch_github_name():
     """Access a protected resource"""
     github=OAuth2Session(client_id, token=session['oauth_token'])
     session['github_name'] = github.get('https://api.github.com/user').json()["login"]
-    json_user_profile = jsonify(github.get('https://api.github.com/user').json())
 
     return session['github_name']
 

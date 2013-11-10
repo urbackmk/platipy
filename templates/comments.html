@@ -10,7 +10,7 @@
     Logged in to github as: {{github_name}}   
     {% endif %}
 
-    </br>
+    <br />
 
     <div>
         <div style="float: left">
@@ -49,23 +49,38 @@
     <div>
 
         {% for comment in section.comment %}
-            <div>
-                <div style="float: left">
-                    {{comment.rating}}
-                </div>
-                <div style="float: left">
+            <div class="row">
+                <div class="col-sm-1">
                     <form method="POST" action="/vote">
                         <input type="hidden" name="comment_id" value="{{comment.id}}"></input>
                         <input type="hidden" name="html_section" value="{{html_section}}"> </input>
-                        <button type="submit" class="btn btn-default btn-xs" name="vote" value="up">
+                        <button
+                            type="submit"
+                            class="btn btn-default btn-xs btn-block btn-link"
+                            name="vote"
+                            value="up">
                             <span class="glyphicon glyphicon-circle-arrow-up"></span>
                         </button>
-                        <button type="submit" class="btn btn-default btn-xs" name="vote" value="down">
+                        <div class="text-center">{{comment.rating}}</div>
+                        <button 
+                            type="submit" 
+                            class="btn btn-default btn-xs btn-block btn-link" 
+                            name="vote" 
+                            value="down">
                             <span class="glyphicon glyphicon-circle-arrow-down"></span>
                         </button>
                     </form>
                 </div>
-                {{comment.created_at|datefilter}} by {{comment.user.github_name}}: {{comment.comment|codefilter|safe}}
+                <div class="col-sm-11">
+                    <strong class="text-muted">
+                        {{comment.created_at|datefilter}} by 
+                        <a href="http://github.com/{{comment.user.github_name}}" target="_blank">
+                            {{comment.user.github_name}}
+                        </a>
+                    </strong>
+                    <p>{{comment.comment}}</p>
+                    {# {{comment.comment|codefilter|safe}} #}
+                </div>
             </div>
         {% endfor %}
     </div>
