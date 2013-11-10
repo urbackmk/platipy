@@ -89,8 +89,9 @@ def make_comment():
     html_section = request.args.get("html_section")
     comment = request.form.get("comment")
     section = model.Section.from_html_section(html_section)
+    user_id = get_user_id()
 
-    new_comment = model.Comment(comment=comment, section_id=section.id, user_id=1)
+    new_comment = model.Comment(comment=comment, section_id=section.id, user_id=user_id)
     model.session.add(new_comment)
     model.session.commit()
 
