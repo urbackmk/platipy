@@ -55,7 +55,7 @@ def fetch_github_name():
 
 
 # this is the github authorization callback url
-@app.route("/comment/")
+@app.route("/comment")
 def show_comments():
     html_section = request.args.get("html_section")
     user_id = get_user_id()
@@ -83,7 +83,7 @@ def show_comments():
         )
 
 # hardcoded user id to always be user 1 for now
-@app.route("/comment/", methods=["POST"])
+@app.route("/comment", methods=["POST"])
 def make_comment():
     html_section = request.args.get("html_section")
     comment = request.form.get("comment")
@@ -165,6 +165,6 @@ if __name__=="__main__":
     # This allows us to use a plain HTTP callback
     os.environ['DEBUG'] = "1"
 
-    app.secret_key = os.urandom(24)
+    app.secret_key = config.flask_secret_key
     app.run(debug=True)
 
