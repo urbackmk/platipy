@@ -33,7 +33,7 @@ function onInfoButtonClick(h2Parent){
 
             iframe.setAttribute("src", "http://localhost:5000/comment/?html_section=" + encodedURL);
             iframe.setAttribute("id", iframeId);
-            iframe.width = "750px";
+            iframe.width = "790px";
             iframe.height = "300px";
             iframe.frameBorder=0;
             h2Parent.appendChild(iframe);

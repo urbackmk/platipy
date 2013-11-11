@@ -1,16 +1,5 @@
 {% extends 'base.html' %}
 {% block body %}
-    {% if github_name == None %}
-    <form action="/authenticate" target="_blank">
-        <button type="submit" class="btn btn-default btn-sm">
-            Sign in to github
-        </button>
-    </form>
-    {% else %}
-    Logged in to github as: {{github_name}}   
-    {% endif %}
-
-    <br />
 
     <div>
         <div style="float: left">
@@ -24,7 +13,11 @@
             <form method="POST" action="/favorite">
                 <input type="hidden" name="html_section" value="{{html_section}}"> </input>
                 <input type="hidden" name="favorited_status" value="true"></input>
-                <button type="submit" class="btn btn-default btn-xs" id="yellow_star" style="float:left">
+                <button 
+                    type="submit" 
+                    class="btn btn-default btn-xs btn-link" 
+                    id="yellow_star" 
+                    style="float:left">
                     <span class="glyphicon glyphicon-star"></span>
                 </button> 
             </form>
@@ -32,22 +25,53 @@
             <form method="POST" action="/favorite">
                 <input type="hidden" name="html_section" value="{{html_section}}"> </input>
                 <input type="hidden" name="favorited_status" value="false"></input>
-                <button type="submit" class="btn btn-default btn-xs" id="white_star" style="float: left">
+                <button 
+                    type="submit" 
+                    class="btn btn-default btn-xs btn-link" 
+                    id="white_star" 
+                    style="float: left">
                     <span class="glyphicon glyphicon-star-empty">
                 </button>
             </form>
         {% endif %}
+    </div>
+    <br />
 
-        <form method="POST" style="padding-left: 10px;">
-            <textarea name="comment" class="form-control" rows="3" cols="300"></textarea>
-            <button type="submit" class="btn btn-default btn-sm">
-                Submit
-            </button>
-        </form>
+    <div class="row">
+        <div class="col-sm-12">
+            {% if github_name == None %}
+                <form role="form">
+                    <fieldset disabled>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" cols="300"></textarea>
+                        </div>
+                    </fieldset>
+                </form>
+                <form action="/authenticate" target="_blank">
+                    <button type="submit" class="btn btn-default btn-sm">
+                        <img src="/static/images/octocat.png"></span>
+                        Sign in to post
+                    </button>
+                </form>
+
+            {% else %}
+                <form method="POST" style="padding-left: 10px;" role="form">
+                    <div class="form-group">
+                        <textarea name="comment" class="form-control" rows="3" cols="300"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Post
+                        </button>
+                        <span class="text-muted"> Logged in to github as {{github_name}} </span>
+                    </div>
+                </form>
+                
+            {% endif %}
+        </div>
     </div>
 
     <div>
-
         {% for comment in section.comment %}
             <div class="row">
                 <div class="col-sm-1">
@@ -71,7 +95,7 @@
                         </button>
                     </form>
                 </div>
-                <div class="col-sm-11">
+                <div class="col-sm-11 comment-box">
                     <strong class="text-muted">
                         {{comment.created_at|datefilter}} by 
                         <a href="http://github.com/{{comment.user.github_name}}" target="_blank">
