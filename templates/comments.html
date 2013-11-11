@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block body %}
 
+    {# ---- favorites section ---- #}
+
     <div>
         <div style="float: left">
             {% if section %}
@@ -37,8 +39,11 @@
     </div>
     <br />
 
+    {# ---- comments section ---- #}
+
     <div class="row">
         <div class="col-sm-12">
+
             {% if github_name == None %}
                 <form role="form">
                     <fieldset disabled>
@@ -65,6 +70,11 @@
                         </button>
                         <span class="text-muted"> Logged in to github as {{github_name}} </span>
                     </div>
+                </form>
+                <form action="/log_out">
+                    <button type="submit" class="btn btn-default btn-sm">
+                        Log out
+                    </button>
                 </form>
                 
             {% endif %}

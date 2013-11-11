@@ -53,6 +53,10 @@ def fetch_github_name():
 
     return session['github_name']
 
+@app.route("/log_out")
+def log_out():
+    session.clear()
+    return redirect("/comment")
 
 # this is the github authorization callback url
 @app.route("/comment")
