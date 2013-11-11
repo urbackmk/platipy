@@ -4,7 +4,8 @@
 // the info icon is an event listener
 
 var h2Elements = document.getElementsByTagName('h2');
-url = window.location.href;
+var url = window.location.href;
+var urlMinusSection = url.split("#")[0];
 
 for (i = 0; i < h2Elements.length; i++){
     var h2Parent = h2Elements[i].parentNode;
@@ -29,7 +30,7 @@ function onInfoButtonClick(h2Parent){
         var iframe = document.getElementById(iframeId);
         if (!iframe){
             iframe = document.createElement('iframe');
-            var encodedURL = encodeURIComponent(url + "#" + h2Parent.id);
+            var encodedURL = encodeURIComponent(urlMinusSection + "#" + h2Parent.id);
 
             iframe.setAttribute("src", "http://localhost:5000/comment?html_section=" + encodedURL);
             iframe.setAttribute("id", iframeId);
