@@ -28,6 +28,7 @@ def authenticate():
     Redirect the user/resource owner to the OAuth provider
     using a URL with a few key OAuth parameters. """
 
+    session["last_visited"] = request.args.get("html_section")
     github = OAuth2Session(client_id)
     authorization_url, state = github.authorization_url(authorization_base_url)
 
@@ -53,12 +54,24 @@ def fetch_github_name():
 
     return session['github_name']
 
+@app.route("/return_to_last")
+def return_to_last():
+    obtain_access_token()
+    github_name = fetch_github_name()
+
+    return redirect(session["last_visited"])
+
 @app.route("/log_out")
 def log_out():
+    html_section=request.args.get("html_section")
+    session.clear()
+    return redirect(url_for("show_comments", html_section=html_section))
+
+@app.route("/clear")
+def clear():
     session.clear()
     return redirect("/comment")
 
-# this is the github authorization callback url
 @app.route("/comment")
 def show_comments():
     html_section = request.args.get("html_section")
