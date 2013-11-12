@@ -43,3 +43,23 @@ function onInfoButtonClick(h2Parent){
         }
     };
 }
+
+function loadComments(){
+    var sectionId = url.split("#")[1];
+    var section = document.getElementById(sectionId);
+    var iframeId = sectionId + "ihgfjhfdfjf";
+
+    iframe = document.createElement('iframe');
+    var encodedURL = encodeURIComponent(url);
+
+    iframe.setAttribute("src", "http://localhost:5000/comment?html_section=" + encodedURL);
+    iframe.setAttribute("id", iframeId);
+    iframe.width = "790px";
+    iframe.height = "300px";
+    iframe.frameBorder=0;
+    section.appendChild(iframe);
+}
+
+if (location.href.indexOf("#") > -1){
+    loadComments();
+}
