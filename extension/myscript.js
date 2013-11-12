@@ -4,7 +4,7 @@
 // the info icon is an event listener
 
 var h2Elements = document.getElementsByTagName('h2');
-var url = window.location.href;
+var url = location.href;
 var urlMinusSection = url.split("#")[0];
 
 for (i = 0; i < h2Elements.length; i++){

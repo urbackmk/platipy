@@ -175,12 +175,12 @@ def get_user_id():
 def datefilter(dt):
     return dt.strftime("%d %B %Y")
 
-@app.template_filter("codefilter")
-def codefilter(incoming_string):
-    pattern = re.compile('\[code\](.*?)\[/code\]', re.DOTALL)
+@app.template_filter("pygmentsfilter")
+def pygmentsfilter(incoming_string):
+    pattern = re.compile('.*?\[code\](.*?)\[/code\]', re.DOTALL)
     result = pattern.match(incoming_string)
-
     capture_text = result.group(1)
+
     return highlight(capture_text, PythonLexer(), HtmlFormatter())
 
 if __name__=="__main__":

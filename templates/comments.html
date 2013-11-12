@@ -55,7 +55,7 @@
                 <form 
                     method="GET"
                     action="/authenticate"
-                    target="_blank">
+                    target="_top">
                     <input type="hidden" name="html_section" value="{{html_section}}"></input>
                     <button type="submit" class="btn btn-default btn-sm">
                         <img src="/static/images/octocat.png"></img>
@@ -118,7 +118,7 @@
                         </a>
                     </strong>
                     {% if "[code]" in comment.comment %}
-                        {{comment.comment|codefilter|safe}}
+                        {{comment.comment|pygmentsfilter|safe}}
                     {% else %}
                         <p>{{comment.comment}}</p>
                     {% endif %}
