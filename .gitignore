@@ -3,6 +3,7 @@ env
 notes.txt
 github_oauth2.py
 testing_notes.txt
+test_parser.py
 oauth_testing_controller.py
 feature_notes.txt
 plan_of_action.txt

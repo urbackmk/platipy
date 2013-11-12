@@ -7,9 +7,10 @@ from flask.json import jsonify
 import os
 import config
 import re
+import cgi
 
 from pygments import highlight
-from pygments.lexers import PythonLexer
+from pygments.lexers import PythonLexer, guess_lexer
 from pygments.formatters import HtmlFormatter
 from pygments.styles import get_style_by_name
 
@@ -175,13 +176,26 @@ def get_user_id():
 def datefilter(dt):
     return dt.strftime("%d %B %Y")
 
-@app.template_filter("pygmentsfilter")
-def pygmentsfilter(incoming_string):
-    pattern = re.compile('.*?\[code\](.*?)\[/code\]', re.DOTALL)
-    result = pattern.match(incoming_string)
-    capture_text = result.group(1)
+@app.template_filter("extract_code")
+def extract_code(s):
+    return_string = ""
+    while len(s) > 0:
+        start_code = s.find("[code]")
+        intro_text = s[:start_code]
+        return_string += cgi.escape(intro_text)
 
-    return highlight(capture_text, PythonLexer(), HtmlFormatter())
+        s = s[start_code+6:]
+        end_code = s.find("[/code]")
+        code = s[:end_code]
+        return_string += pygmentsfilter2(code)
+
+        s = s[end_code+7:]
+
+    return return_string
+
+def pygmentsfilter2(incoming_string):
+    return highlight(incoming_string, PythonLexer(), HtmlFormatter())
+    # return highlight(incoming_string, guess_lexer(incoming_string), HtmlFormatter)
 
 if __name__=="__main__":
     # This allows us to use a plain HTTP callback

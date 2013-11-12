@@ -118,7 +118,7 @@
                         </a>
                     </strong>
                     {% if "[code]" in comment.comment %}
-                        {{comment.comment|pygmentsfilter|safe}}
+                        <p>{{comment.comment|extract_code|safe}}</p>
                     {% else %}
                         <p>{{comment.comment}}</p>
                     {% endif %}
