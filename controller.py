@@ -6,6 +6,7 @@ from requests_oauthlib import OAuth2Session
 from flask.json import jsonify
 import os
 import config
+import re
 
 from pygments import highlight
 from pygments.lexers import PythonLexer
@@ -176,7 +177,11 @@ def datefilter(dt):
 
 @app.template_filter("codefilter")
 def codefilter(incoming_string):
-    return highlight(incoming_string, PythonLexer(), HtmlFormatter())
+    pattern = re.compile('\[code\](.*?)\[/code\]', re.DOTALL)
+    result = pattern.match(incoming_string)
+
+    capture_text = result.group(1)
+    return highlight(capture_text, PythonLexer(), HtmlFormatter())
 
 if __name__=="__main__":
     # This allows us to use a plain HTTP callback

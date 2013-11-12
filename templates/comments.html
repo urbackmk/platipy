@@ -117,8 +117,11 @@
                             {{comment.user.github_name}}
                         </a>
                     </strong>
-                    <p>{{comment.comment}}</p>
-                    {# {{comment.comment|codefilter|safe}} #}
+                    {% if "[code]" in comment.comment %}
+                        {{comment.comment|codefilter|safe}}
+                    {% else %}
+                        <p>{{comment.comment}}</p>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
