@@ -147,14 +147,26 @@ def vote():
     comment_id = request.form.get("comment_id")
     vote = request.form.get("vote")
     html_section = request.form.get("html_section")
-    comment = model.session.query(model.Comment).filter_by(id=comment_id).first()
+    user_id = get_user_id()
 
-    if vote == "up":
-        comment.rating += 1
-        model.session.commit()
-    elif vote == "down":
-        comment.rating -= 1
-        model.session.commit()
+    # check to see if ratings table already has data for that user_id and comment_id
+    rating_object = model.session.query(model.Rating).filter_by(comment_id=comment_id, 
+        user_id=user_id).first()
+
+    if rating_object:
+        pass
+    else:
+        if vote == "up":
+            rating_object = model.Rating(user_id=user_id, comment_id=comment_id, rating=1)
+            model.session.add(rating_object)
+            model.session.commit()
+            rating_object.comment.sum_ratings += 1
+        else:
+            rating_object = model.Rating(user_id=user_id, comment_id=comment_id, rating=-1)
+            model.session.add(rating_object)
+            model.session.commit()
+            rating_object.comment.sum_ratings -= 1
+
 
     return redirect(url_for('show_comments', html_section=html_section))
     

@@ -17,7 +17,7 @@ class Comment(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.datetime.now)
     comment = Column(String(255))
-    rating = Column(Integer, default=0)
+    sum_ratings = Column(Integer, default=0)
 
     user = relationship("User", backref="comment")
     section = relationship("Section", backref="comment")
@@ -47,6 +47,16 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     github_name = Column(String(60))
+
+class Rating(Base):
+    __tablename__ = "ratings"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    comment_id = Column(Integer, ForeignKey('comments.id'))
+    rating = Column(Integer, default=0)
+
+    comment = relationship("Comment", backref="rating")
 
 class Favorite(Base):
     __tablename__ = "favorites"
