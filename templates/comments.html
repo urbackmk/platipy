@@ -66,7 +66,12 @@
             {% else %}
                 <form method="POST" style="padding-left: 10px;" role="form">
                     <div class="form-group">
-                        <textarea name="comment" class="form-control" rows="3" cols="300"></textarea>
+                        <textarea 
+                            name="comment" 
+                            class="form-control" 
+                            id="text_area" 
+                            rows="3" cols="300">
+                        </textarea>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-sm">
@@ -81,6 +86,12 @@
                         Log out
                     </button>
                 </form>
+                <button 
+                    class="btn btn-default btn-xs" 
+                    id="insert_code" 
+                    data-text-area-id="text_area">
+                    Insert Code
+                </button>
                 
             {% endif %}
         </div>
@@ -97,7 +108,8 @@
                             type="submit"
                             class="btn btn-default btn-xs btn-block btn-link"
                             name="vote"
-                            value="up">
+                            value="up"
+                            id="upVote">
                             <span class="glyphicon glyphicon-circle-arrow-up"></span>
                         </button>
                         <div class="text-center">{{comment.rating}}</div>
@@ -105,7 +117,8 @@
                             type="submit" 
                             class="btn btn-default btn-xs btn-block btn-link" 
                             name="vote" 
-                            value="down">
+                            value="down"
+                            id="downVote">
                             <span class="glyphicon glyphicon-circle-arrow-down"></span>
                         </button>
                     </form>
@@ -120,7 +133,7 @@
                     {% if "[code]" in comment.comment %}
                         <p>{{comment.comment|extract_code|safe}}</p>
                     {% else %}
-                        <p>{{comment.comment}}</p>
+                        <p>{{comment.comment|detect_url_and_make_link|safe}}</p>
                     {% endif %}
                 </div>
             </div>

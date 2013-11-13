@@ -8,6 +8,7 @@ import os
 import config
 import re
 import cgi
+import random
 
 from pygments import highlight
 from pygments.lexers import PythonLexer, guess_lexer
@@ -78,7 +79,7 @@ def clear():
 def show_comments():
     html_section = request.args.get("html_section")
     user_id = get_user_id()
-    section = model.Section.from_html_section(html_section)    
+    section = model.Section.from_html_section(html_section)
     
     favorite = None
     if section:
@@ -175,6 +176,22 @@ def get_user_id():
 @app.template_filter("datefilter")
 def datefilter(dt):
     return dt.strftime("%d %B %Y")
+
+# def encode_string_with_link(incoming_string):
+#     url_regex = re.compile(r"""((?:mailto:|ftp://|http://)[^ <>'"{}|\\^`[\]]*)""")
+#     return url_regex.sub(r'<a href="\1">\1</a>', incoming_string)
+
+@app.template_filter("detect_url_and_make_link")
+def detect_url_and_make_link(incoming_string):
+    pat1 = re.compile(r"(^|[\n ])(([\w]+?://[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", re.IGNORECASE | re.DOTALL)
+    pat2 = re.compile(r"#(^|[\n ])(((www|ftp)\.[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", re.IGNORECASE | re.DOTALL)
+
+    incoming_string = pat1.sub(r'\1<a href="\2" target="_blank">\3</a>', incoming_string)
+    incoming_string = pat2.sub(r'\1<a href="http:/\2" target="_blank">\3</a>', incoming_string)
+    # safe_string = cgi.escape(incoming_string)
+
+    # return safe_string
+    return incoming_string
 
 @app.template_filter("extract_code")
 def extract_code(s):
