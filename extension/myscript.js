@@ -1,4 +1,3 @@
-
 function createIframe(url, iframeId){
     var iframe = document.createElement('iframe');
     var encodedURL = encodeURIComponent(url);
@@ -51,10 +50,8 @@ function main(){
             clickHandler();
         }
     }
-    $('dt').prepend('<img src="http://localhost:5000/static/images/white_star.png" />');
+    // $('dt').prepend('<img src="http://localhost:5000/static/images/white_star.png" />');
 }
 
 main();
-
-
 

@@ -161,15 +161,23 @@ def vote():
             model.session.add(rating_object)
             model.session.commit()
             rating_object.comment.sum_ratings += 1
+            model.session.commit()
         else:
             rating_object = model.Rating(user_id=user_id, comment_id=comment_id, rating=-1)
             model.session.add(rating_object)
             model.session.commit()
             rating_object.comment.sum_ratings -= 1
+            model.session.commit()
 
 
     return redirect(url_for('show_comments', html_section=html_section))
     
+
+# @app.route("/page_favorites")
+# def show_page_favorites(url):
+    
+#     return json.dumps(favorites)
+
 
 def get_user_id():
     if session.get('github_name'):
@@ -216,13 +224,13 @@ def extract_code(s):
         s = s[start_code+6:]
         end_code = s.find("[/code]")
         code = s[:end_code]
-        return_string += pygmentsfilter2(code)
+        return_string += pygmentsfilter(code)
 
         s = s[end_code+7:]
 
     return return_string
 
-def pygmentsfilter2(incoming_string):
+def pygmentsfilter(incoming_string):
     return highlight(incoming_string, PythonLexer(), HtmlFormatter())
     # return highlight(incoming_string, guess_lexer(incoming_string), HtmlFormatter)
 
