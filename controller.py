@@ -20,6 +20,8 @@ import json
 app = Flask(__name__)
 app.debug = True
 
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "something")
+
 client_id = config.client_id
 client_secret = config.client_secret
 authorization_base_url = 'https://github.com/login/oauth/authorize'
@@ -239,7 +241,8 @@ if __name__=="__main__":
     # This allows us to use a plain HTTP callback
     os.environ['DEBUG'] = "1"
 
-    app.secret_key = config.flask_secret_key
+    app.secret_key = os.environ.get("FLASK_SECRET_KEY", "something")
+
     print app.secret_key
     app.run(debug=True)
 
