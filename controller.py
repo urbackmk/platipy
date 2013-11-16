@@ -18,6 +18,7 @@ from pygments.styles import get_style_by_name
 import json
 
 app = Flask(__name__)
+app.debug = True
 
 client_id = config.client_id
 client_secret = config.client_secret
@@ -175,7 +176,7 @@ def vote():
 
 # @app.route("/page_favorites")
 # def show_page_favorites(url):
-    
+
 #     return json.dumps(favorites)
 
 
