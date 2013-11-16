@@ -6,9 +6,12 @@ function createIframe(url, iframeId){
     var encodedURL = encodeURIComponent(url);
     iframe.setAttribute("src", "http://" + DOMAIN + "/comment?html_section=" + encodedURL);
     iframe.setAttribute("id", iframeId);
-    iframe.width = "790px";
-    iframe.height = "300px";
+    iframe.width = "100%";
+    iframe.scrolling = "no";
+    // iframe.width = "790px";
+    // iframe.height = "300px";
     iframe.frameBorder=0;
+
     return iframe;
 }
 
@@ -29,6 +32,20 @@ function onInfoButtonClick(sectionElement){
             var url = urlMinusSection + "#" + sectionElement.id;
             iframe = createIframe(url, iframeId);
             sectionElement.appendChild(iframe);
+            
+            // using a jquery plug-in for cross-domain iframe resizing
+            $(iframe).iFrameSizer({
+                log: true,
+                contentWindowBodyMargin:8,
+                doHeight:true,
+                doWidth:false,
+                enablePublicMethods:true,
+                interval:32,
+                callback:function(messageData){
+                    console.log("got some messageData", messageData);
+                }
+            });
+
         } else {
             iframe.parentNode.removeChild(iframe);
         }

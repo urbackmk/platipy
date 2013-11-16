@@ -23,7 +23,7 @@
     "content_scripts": [
         {
             "matches": ["http://docs.python.org/2/library/*", "http://flask.readthedocs.org/*", "http://django.readthedocs.org/*"],
-            "js": ["jquery.min.js", "myscript.js"]
+            "js": ["jquery.min.js", "jquery.iframeResizer.min.js", "myscript.js"]
         }
     ]
 }
