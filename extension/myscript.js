@@ -1,7 +1,9 @@
+var DOMAIN = "platipy.herokuapp.com";
+
 function createIframe(url, iframeId){
     var iframe = document.createElement('iframe');
     var encodedURL = encodeURIComponent(url);
-    iframe.setAttribute("src", "http://localhost:5000/comment?html_section=" + encodedURL);
+    iframe.setAttribute("src", "http://" + DOMAIN + "/comment?html_section=" + encodedURL);
     iframe.setAttribute("id", iframeId);
     iframe.width = "790px";
     iframe.height = "300px";
@@ -42,7 +44,7 @@ function main(){
         var infoIcon = document.createElement('img');
         var clickHandler = onInfoButtonClick(sectionElement);
 
-        infoIcon.setAttribute("src", "http://localhost:5000/static/images/info_icon.png");
+        infoIcon.setAttribute("src", "http://" + DOMAIN + "/static/images/info_icon.png");
         infoIcon.addEventListener('click', clickHandler, false);
         h2Elements[i].insertBefore(infoIcon, h2Elements[i].childNodes[0]);
 
