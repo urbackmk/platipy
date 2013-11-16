@@ -26,8 +26,8 @@ class Section(Base):
     __tablename__ = "sections"
 
     id = Column(Integer, primary_key=True)
-    html_section = Column(String(60))
-    site_id = Column(ForeignKey('sites.id'))
+    html_section = Column(String(200))
+    site_id = Column(ForeignKey('sites.id'), nullable=True)
     num_favorites = Column(Integer, default=0)
 
     @classmethod
@@ -71,7 +71,7 @@ class Site(Base):
     __tablename__ = "sites"
 
     id = Column(Integer, primary_key=True)
-    url = Column(String(255))
+    url = Column(String(255), nullable=True)
 
 def create_tables():
     Base.metadata.create_all(engine)

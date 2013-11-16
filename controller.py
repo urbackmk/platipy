@@ -240,5 +240,6 @@ if __name__=="__main__":
     os.environ['DEBUG'] = "1"
 
     app.secret_key = config.flask_secret_key
+    print app.secret_key
     app.run(debug=True)
 
