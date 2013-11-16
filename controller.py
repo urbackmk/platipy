@@ -108,6 +108,7 @@ def show_comments():
 # hardcoded user id to always be user 1 for now
 @app.route("/comment", methods=["POST"])
 def make_comment():
+    assert_is_authenticated()
     html_section = request.args.get("html_section")
     comment = request.form.get("comment")
     section = model.Section.from_html_section(html_section)
@@ -124,6 +125,7 @@ def set_favorite():
     """updates favorites table with section id and user id 
     and updates section table with number of favorites"""
 
+    assert_is_authenticated()
     html_section= request.form.get("html_section")
     section = model.Section.from_html_section(html_section)
     user_id = get_user_id()
@@ -146,7 +148,7 @@ def set_favorite():
 @app.route("/vote", methods=["POST"])
 def vote():
     """adjusts rating of a comment according to upvote or downvote"""
-
+    assert_is_authenticated()
     comment_id = request.form.get("comment_id")
     vote = request.form.get("vote")
     html_section = request.form.get("html_section")
@@ -196,6 +198,10 @@ def get_user_id():
             return user.id
     return None
 
+def assert_is_authenticated():
+    if not get_user_id():
+        raise Exception("Request was unauthenticated")
+
 @app.template_filter("datefilter")
 def datefilter(dt):
     return dt.strftime("%d %B %Y")
@@ -242,7 +248,5 @@ if __name__=="__main__":
     os.environ['DEBUG'] = "1"
 
     app.secret_key = os.environ.get("FLASK_SECRET_KEY", "something")
-
-    print app.secret_key
     app.run(debug=True)
 

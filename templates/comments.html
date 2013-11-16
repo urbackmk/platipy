@@ -41,9 +41,6 @@
 
     {# ---- comments section ---- #}
 
-    <div class="row">
-        <div class="col-sm-12">
-
             {% if github_name == None %}
                 <form role="form">
                     <fieldset disabled>
@@ -64,38 +61,33 @@
                 </form>
 
             {% else %}
+                <a href="/log_out?html_section={{html_section|urlencode}}" style="float:right">Log out</a>
+                <span class="text-muted" style="float:right"> 
+                    Logged in to github as {{github_name}}&nbsp&nbsp</span>
                 <form method="POST" style="padding-left: 10px;" role="form">
                     <div class="form-group">
                         <textarea 
                             name="comment" 
                             class="form-control" 
                             id="text_area" 
-                            rows="3" cols="300">
-                        </textarea>
+                            rows="3" cols="300"></textarea>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-sm">
                             Post
                         </button>
-                        <span class="text-muted"> Logged in to github as {{github_name}} </span>
+                        <button 
+                            class="btn btn-default btn-xs" 
+                            id="insert_code" 
+                            data-text-area-id="text_area"
+                            type="button"
+                            style="float:right">
+                            Insert Code
+                        </button>
                     </div>
                 </form>
-                <form action="/log_out">
-                    <input type="hidden" name="html_section" value="{{html_section}}"/>
-                    <button type="submit" class="btn btn-default btn-sm">
-                        Log out
-                    </button>
-                </form>
-                <button 
-                    class="btn btn-default btn-xs" 
-                    id="insert_code" 
-                    data-text-area-id="text_area">
-                    Insert Code
-                </button>
-                
+            
             {% endif %}
-        </div>
-    </div>
 
     <div>
         {% for comment in section.comment %}

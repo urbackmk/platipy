@@ -1,4 +1,5 @@
-var DOMAIN = "platipy.herokuapp.com";
+// var DOMAIN = "platipy.herokuapp.com";
+var DOMAIN = "localhost:5000";
 
 function createIframe(url, iframeId){
     var iframe = document.createElement('iframe');

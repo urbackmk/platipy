@@ -2,7 +2,7 @@
 
 // will at some point need to query the sites table to get urls to work on
 function checkForValidUrl(tabId, changeInfo, tab){
-    if (tab.url.indexOf('docs.python.org/2/library') > -1){
+    if (tab.url.indexOf('docs.python.org/2/library') > -1 || tab.url.indexOf('readthedocs.org') > -1){
         chrome.pageAction.show(tabId);
     }
 }
