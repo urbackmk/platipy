@@ -92,7 +92,7 @@
     <div>
         {% for comment in section.comment %}
             <div class="row">
-                <div class="col-sm-1">
+                <div class="col-xs-1">
                     <form method="POST" action="/vote">
                         <input type="hidden" name="comment_id" value="{{comment.id}}"/>
                         <input type="hidden" name="html_section" value="{{html_section}}"/>
@@ -115,7 +115,7 @@
                         </button>
                     </form>
                 </div>
-                <div class="col-sm-11 comment-box">
+                <div class="col-xs-11 comment-box">
                     <strong class="text-muted">
                         {{comment.created_at|datefilter}} by 
                         <a href="http://github.com/{{comment.user.github_name}}" target="_blank">
