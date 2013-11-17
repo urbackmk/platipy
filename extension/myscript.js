@@ -2,17 +2,14 @@
 var DOMAIN = "localhost:5000";
 
 function createIframe(url, iframeId){
-    var iframe = document.createElement('iframe');
+    var $iframe = $('<iframe></iframe>');
     var encodedURL = encodeURIComponent(url);
-    iframe.setAttribute("src", "http://" + DOMAIN + "/comment?html_section=" + encodedURL);
-    iframe.setAttribute("id", iframeId);
-    iframe.width = "100%";
-    iframe.scrolling = "no";
-    // iframe.width = "790px";
-    // iframe.height = "300px";
-    iframe.frameBorder=0;
-
-    return iframe;
+    $iframe.attr("src", "http://" + DOMAIN + "/comment?html_section=" + encodedURL);
+    $iframe.attr("id", iframeId);
+    $iframe.attr("width", "100%");
+    $iframe.attr("scrolling", "no");
+    $iframe.attr("frameBorder", 0);
+    return $iframe[0];
 }
 
 /**
@@ -32,7 +29,7 @@ function onInfoButtonClick(sectionElement){
             var url = urlMinusSection + "#" + sectionElement.id;
             iframe = createIframe(url, iframeId);
             sectionElement.appendChild(iframe);
-            
+
             // using a jquery plug-in for cross-domain iframe resizing
             $(iframe).iFrameSizer({
                 log: true,
