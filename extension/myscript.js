@@ -1,10 +1,10 @@
 // var DOMAIN = "platipy.herokuapp.com";
 var DOMAIN = "localhost:5000";
 
-var createIframe = function(url, iframeId){
+var createIframe = function(htmlSection, iframeId){
     var $iframe = $('<iframe></iframe>');
-    var encodedURL = encodeURIComponent(url);
-    $iframe.attr("src", "http://" + DOMAIN + "/comment?html_section=" + encodedURL);
+    var encodedHtmlSection = encodeURIComponent(htmlSection);
+    $iframe.attr("src", "http://" + DOMAIN + "/comment?html_section=" + encodedHtmlSection);
     $iframe.attr("id", iframeId);
     $iframe.attr("width", "100%");
     $iframe.attr("scrolling", "no");
@@ -20,15 +20,15 @@ var createIframe = function(url, iframeId){
  * remove the iframe element
  * uses closure - the inner function saves the conditions under which it was created
  */
-var onInfoButtonClick = function($sectionElement){
+var onInfoButtonClick = function($segmentElement, $sectionElement){
     return function(){
-        var iframeId = $sectionElement.attr("id") + "ihgfjhfdfjf";
+        var iframeId = $sectionElement.attr("id") + md5($segmentElement.text());
         var $iframe = $('#' + iframeId);
         var urlMinusSection = location.href.split("#")[0];
         if ($iframe.length === 0){
-            var url = urlMinusSection + "#" + $sectionElement.attr("id");
-            $iframe = createIframe(url, iframeId);
-            $sectionElement.append($iframe);
+            var htmlSection = urlMinusSection + "#" + $sectionElement.attr('id') + ":" + md5($segmentElement.text());
+            $iframe = createIframe(htmlSection, iframeId);
+            $segmentElement.append($iframe);
 
             // using a jquery plug-in for cross-domain iframe resizing
             $iframe.iFrameSizer({
@@ -49,7 +49,8 @@ var onInfoButtonClick = function($sectionElement){
     };
 };
 
-
+// "sectionElement" = <div class="section"></div>
+// "segmentElement" == a node that we're commenting on
 
 //displays an info icon at the beginning of every h2 element
 //loads an iframe for the section specified in the url hash
@@ -57,18 +58,25 @@ var main = function(){
     var $h2Elements = $('h2');
     $h2Elements.each(function(index, element){
         var $sectionElement = $(this).parent();
+        var $segmentElement = $sectionElement;
         var $infoIcon = $('<img></img>');
-        var clickHandler = onInfoButtonClick($sectionElement);
+        var clickHandler = onInfoButtonClick($segmentElement, $sectionElement);
 
         $infoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon.png");
         $infoIcon.click(clickHandler);
         $(this).prepend($infoIcon);
 
-        if ("#" + $sectionElement[0].id === location.hash){
+        // if the url is pointing to a specific segment element:
+        if (md5($segmentElement.text()) === location.hash.split(":")[1]){
+            //load iframe
             clickHandler();
+
+            // and scroll to that segment
+            $('html, body').animate({
+                scrollTop: $segmentElement.offset().top
+            });
         }
     });
 };
 
 main();
-

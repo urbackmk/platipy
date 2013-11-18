@@ -5,7 +5,6 @@ github_oauth2.py
 testing_notes.txt
 test_parser.py
 extension/myscript2.js
-extension/md5.js
 test_url_detector.py
 oauth_testing_controller.py
 feature_notes.txt
