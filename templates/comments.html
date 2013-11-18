@@ -90,7 +90,7 @@
             {% endif %}
 
     <div>
-        {% for comment in section.comment %}
+        {% for comment in section.comment|reverse %}
             <div class="row">
                 <div class="col-xs-1">
                     <form method="POST" action="/vote">
