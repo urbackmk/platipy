@@ -27,6 +27,10 @@ client_secret = config.client_secret
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
+@app.route("/")
+def landing_page():
+    return render_template("landing_page.html")
+
 # Call this when a user pushes a Sign In to Github button
 @app.route("/authenticate")
 def authenticate():

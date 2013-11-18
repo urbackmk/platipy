@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Chrome extension for readthedocs documentation</a>
+        </div>
+        <div class="collapse navbar-collapse">
+<!--             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#about">About</a>
+                </li>
+                <li>
+                    <a href="#install">Install</a>
+                </li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li> 
+            </ul> -->
+        </div>
+    </div>
+</div>
+
+<div class="container landing-page">
+    <div class="row">
+        <h3>About</h3>
+        <p>A chrome extension that allows for favoriting, commenting, and adding example code inline to documentation hosted by Read the Docs.</p>
+        <p>This extension is currently available for use on the following sites:</p>
+        <ol>
+            <li><a href="http://docs.python.org">docs.python.org</a></li>
+            <li><a href="http://flask.readthedocs.org">flask.readthedocs.org></a></li>
+            <li><a href="http://django.readthedocs.org">django.readthedocs.org></a></li>
+            <li><a href="http://jquery-xml-rpc.readthedocs.org/">jquery-xml-rpc.readthedocs.org/</a></li>
+            <li><a href="https://oauthlib.readthedocs.org">oauthlib.readthedocs.org</a></li>
+        </ol>
+        <p>Written in Python, Javascript, jQuery, HTML and CSS</p>
+        <p>Enables users to log into github via Oauth2</p>
+        <p>Uses the <a href="http://pygments.org/">Pygments</a> python library for syntax highlighting</p>
+    </div>
+    <div class="row">
+        <h3>Install</h3>
+        <ol>
+            <li>Download this <a download="http://platipy.herokuapp.com/extension/platipy_extension.zip">zip file</a></li>
+            <li>Go to chrome://extensions</li>
+            <li>Check "developer mode" in the upper right hand corner</li>
+            <li>Click "Load unpacked extension" and browse to select the file</li>
+        </ol>
+    </div>
+    <div class="row">
+        <h3>Contact</h3>
+        <ul>
+            <li>Read the code for this exetension on <a href="http://www.github.com/urbackmk/platipy" target="blank">github</a></li>
+            <li>Email me at meghan@meghanurback.com</li>
+
+    </div>
+</div>
+{% endblock %}

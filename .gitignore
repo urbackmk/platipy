@@ -6,6 +6,9 @@ testing_notes.txt
 test_parser.py
 extension/myscript2.js
 extension/simpleHashFunction.js
+extension/platipy_extension.zip
+extension.crx
+extension.pem
 test_url_detector.py
 oauth_testing_controller.py
 feature_notes.txt

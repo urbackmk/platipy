@@ -22,7 +22,7 @@
     "manifest_version": 2,
     "content_scripts": [
         {
-            "matches": ["http://docs.python.org/2/library/*", "http://flask.readthedocs.org/*", "http://django.readthedocs.org/*"],
+            "matches": ["http://docs.python.org/*", "http://flask.readthedocs.org/*", "http://django.readthedocs.org/*", "https://oauthlib.readthedocs.org", "http://jquery-xml-rpc.readthedocs.org/"],
             "js": ["jquery.min.js", "jquery.iframeResizer.min.js", "md5.js", "myscript.js"]
         }
     ]

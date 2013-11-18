@@ -56,7 +56,7 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
 //loads an iframe for the section specified in the url hash
 var main = function(){
     var $segmentElements = $(".section > p, .section > dl, .section > table, .section > ol, " +
-          ".section > div.highlight-python, .section > ul, .section > .admonition");
+          ".section > div.highlight-python, .section > ul, .section > .admonition, .section > blockquote");
     $segmentElements.each(function(index, element){
         if (!($(this).text().length < 100 && $(this).is('p'))){
             var $sectionElement = $(this).parent();
