@@ -9,7 +9,7 @@ var createIframe = function(url, iframeId){
     $iframe.attr("width", "100%");
     $iframe.attr("scrolling", "no");
     $iframe.attr("frameBorder", 0);
-    return $iframe[0];
+    return $iframe;
 };
 
 /**
@@ -20,15 +20,15 @@ var createIframe = function(url, iframeId){
  * remove the iframe element
  * uses closure - the inner function saves the conditions under which it was created
  */
-var onInfoButtonClick = function(sectionElement){
+var onInfoButtonClick = function($sectionElement){
     return function(){
-        var iframeId = sectionElement.id + "ihgfjhfdfjf";
+        var iframeId = $sectionElement.attr("id") + "ihgfjhfdfjf";
         var $iframe = $('#' + iframeId);
         var urlMinusSection = location.href.split("#")[0];
         if ($iframe.length === 0){
-            var url = urlMinusSection + "#" + sectionElement.id;
-            $iframe = $(createIframe(url, iframeId));
-            $(sectionElement).append($iframe);
+            var url = urlMinusSection + "#" + $sectionElement.attr("id");
+            $iframe = createIframe(url, iframeId);
+            $sectionElement.append($iframe);
 
             // using a jquery plug-in for cross-domain iframe resizing
             $iframe.iFrameSizer({
@@ -51,25 +51,24 @@ var onInfoButtonClick = function(sectionElement){
 
 
 
-// displays an info icon at the beginning of every h2 element
-// loads an iframe for the section specified in the url hash
-function main(){
-    var h2Elements = document.getElementsByTagName('h2');
-    for (i = 0; i < h2Elements.length; i++){
-        var sectionElement = h2Elements[i].parentNode;
-        var infoIcon = document.createElement('img');
-        var clickHandler = onInfoButtonClick(sectionElement);
+//displays an info icon at the beginning of every h2 element
+//loads an iframe for the section specified in the url hash
+var main = function(){
+    var $h2Elements = $('h2');
+    $h2Elements.each(function(index, element){
+        var $sectionElement = $(this).parent();
+        var $infoIcon = $('<img></img>');
+        var clickHandler = onInfoButtonClick($sectionElement);
 
-        infoIcon.setAttribute("src", "http://" + DOMAIN + "/static/images/info_icon.png");
-        infoIcon.addEventListener('click', clickHandler, false);
-        h2Elements[i].insertBefore(infoIcon, h2Elements[i].childNodes[0]);
+        $infoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon.png");
+        $infoIcon.click(clickHandler);
+        $(this).prepend($infoIcon);
 
-        if ("#" + sectionElement.id === location.hash){
+        if ("#" + $sectionElement[0].id === location.hash){
             clickHandler();
         }
-    }
-    // $('dt').prepend('<img src="http://localhost:5000/static/images/white_star.png" />');
-}
+    });
+};
 
 main();
 
