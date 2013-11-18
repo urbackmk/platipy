@@ -55,26 +55,29 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
 //displays an info icon at the beginning of every h2 element
 //loads an iframe for the section specified in the url hash
 var main = function(){
-    var $h2Elements = $('h2');
-    $h2Elements.each(function(index, element){
-        var $sectionElement = $(this).parent();
-        var $segmentElement = $sectionElement;
-        var $infoIcon = $('<img></img>');
-        var clickHandler = onInfoButtonClick($segmentElement, $sectionElement);
+    var $segmentElements = $(".section > p, .section > dl, .section > table, .section > ol, " +
+          ".section > div.highlight-python, .section > ul, .section > .admonition");
+    $segmentElements.each(function(index, element){
+        if (!($(this).text().length < 100 && $(this).is('p'))){
+            var $sectionElement = $(this).parent();
+            var $segmentElement = $(this);
+            var $infoIcon = $('<img></img>');
+            var clickHandler = onInfoButtonClick($segmentElement, $sectionElement);
 
-        $infoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon.png");
-        $infoIcon.click(clickHandler);
-        $(this).prepend($infoIcon);
+            $infoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon_25px.png");
+            $infoIcon.attr("style", "position: absolute; margin-left: -30px");
+            $infoIcon.click(clickHandler);
+            $(this).prepend($infoIcon);
 
-        // if the url is pointing to a specific segment element:
-        if (md5($segmentElement.text()) === location.hash.split(":")[1]){
-            //load iframe
-            clickHandler();
-
-            // and scroll to that segment
-            $('html, body').animate({
-                scrollTop: $segmentElement.offset().top
-            });
+            // if the url is pointing to a specific segment element:
+            if (md5($segmentElement.text()) === location.hash.split(":")[1]){
+                //load iframe
+                clickHandler();
+                // and scroll to that segment
+                $('html, body').animate({
+                    scrollTop: $segmentElement.offset().top
+                });
+            }
         }
     });
 };
