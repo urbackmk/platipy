@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>Chrome documentation extension</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="/static/css/bootstrap.css" rel="stylesheet">
         <link href="/static/css/main.css" rel="stylesheet">
         <link href="/static/css/pygments-highlight.css" rel="stylesheet">
@@ -8,9 +10,7 @@
     </head>
 
     <body>
-        <div class="container whole-thing">
-            {% block body %}{% endblock %}
-        </div>
+        {% block body %}{% endblock %}
         <script type="text/javascript" src="/static/js/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="/static/js/jquery.autosize.min.js"></script>
         <script type="text/javascript" src="/static/js/iframeResizer.contentWindow.min.js"></script>

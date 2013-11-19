@@ -1,3 +1,7 @@
+body.landing-page{
+    padding-top: 70px;
+}
+
 .comment-box{
     margin-left: -3%;
 }
@@ -9,11 +13,6 @@
 
 p{
     white-space: pre-wrap;
-}
-
-.landing-page{
-    margin-top: 50px;
-    padding: 20px;
 }
 
 .delete-comment-form{
