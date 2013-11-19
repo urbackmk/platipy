@@ -109,7 +109,6 @@ def show_comments():
         github_name=github_name
         )
 
-# hardcoded user id to always be user 1 for now
 @app.route("/comment", methods=["POST"])
 def make_comment():
     assert_is_authenticated()
@@ -123,6 +122,25 @@ def make_comment():
     model.session.commit()
 
     return redirect(url_for('show_comments', html_section=html_section))
+
+@app.route("/delete_comment", methods=["POST"])
+def delete_comment():
+    assert_is_authenticated()
+    html_section = request.form.get("html_section")
+    print html_section
+    comment_id = request.form.get("comment_id")
+    print comment_id
+    user_id = get_user_id()
+    print user_id
+
+    comment = model.session.query(model.Comment).filter_by(id=comment_id).first()
+    print comment
+    if user_id == comment.user.id:
+        model.session.delete(comment)
+        model.session.commit()
+
+    return redirect(url_for('show_comments', html_section=html_section))
+
 
 @app.route("/favorite", methods=["POST"])
 def set_favorite():
