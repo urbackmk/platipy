@@ -15,3 +15,16 @@ p{
     margin-top: 50px;
     padding: 20px;
 }
+
+.delete-comment-form{
+    display: inline;
+}
+
+.delete-comment-form .btn{
+    color: #777;
+}
+
+.delete-comment-form .glyphicon{
+    right: 3px;
+    top: 0px;
+}

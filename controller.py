@@ -167,6 +167,18 @@ def set_favorite():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
+@app.route("/show_favorites")
+def show_favorites():
+    user_id = get_user_id()
+    favorites_list = model.session.query(model.Favorite).filter_by(user_id=user_id).all()
+    favorite_sites = {}
+    favorite_sections = {}
+    for favorite in favorites_list:
+        favorite_sites[favorite.section.html_section.split("http://")[1].split("/")[0]] = 1
+        print favorite.section.html_section.split("http://")[1].split("#")[1]
+        favorite_sections[favorite.section.html_section.split("http://")[1].split("/")[1].split("#")[1].split(":")[0]] = 1
+    return render_template("favorites.html", favorite_sections=favorite_sections, favorite_sites=favorite_sites)
+
 @app.route("/vote", methods=["POST"])
 def vote():
     """adjusts rating of a comment according to upvote or downvote"""

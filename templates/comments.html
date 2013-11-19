@@ -122,13 +122,10 @@
                             {{comment.user.github_name}}
                         </a>
                         {% if github_name == comment.user.github_name %}
-<!--                         <a href="/delete_comment?html_section={{html_section}}&#38comment_id={{comment.id}}">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a> -->
-                        <form method="POST" action="/delete_comment">
+                        <form method="POST" action="/delete_comment" class="delete-comment-form">
                             <input type="hidden" name="html_section" value="{{html_section}}"/>
                             <input type="hidden" name="comment_id" value="{{comment.id}}"/>
-                            <button type="submit" class="btn btn-default btn-xs btn-block btn-link">
+                            <button type="submit" class="btn btn-default btn-xs btn-link">
                                 <span class="glyphicon glyphicon-remove"></span> 
                             </button>
                         </form>
