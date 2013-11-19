@@ -9,11 +9,14 @@ extension/simpleHashFunction.js
 extension/platipy_extension.zip
 extension.crx
 extension.pem
+readthedocs_api_interface.py
+templates/favorites.html
 test_url_detector.py
 oauth_testing_controller.py
 feature_notes.txt
 plan_of_action.txt
 templates/test.txt
+static/platipy_extension.crx
 *.pyc
 *.db
 .*.swp
