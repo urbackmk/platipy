@@ -182,12 +182,13 @@ def favorites():
 
     websites_dict = {}
 
-    # {website: {page title:{section id:[(segment text, segment url)]}}}
+    # {website: {page title:{section title:[(segment text, segment url)]}}}
     # {website: {section id:[(segment text, segment url)]}}
     for favorite in favorites_list:
         website = favorite.section.html_section.split("http://")[1].split("/")[0]
-        section_id = favorite.section.html_section.split("#")[1].split(":")[0]
         segment_path = favorite.section.html_section
+        page_title = favorite.section.page_title
+        section_title = favorite.section.section_title
         segment_text = favorite.section.segment_text
 
         # if there is a website entry:
@@ -196,13 +197,13 @@ def favorites():
             # if there is a matching section id:
                 # append (segment_text, segment_path)
                 # otherwise set the key as the section id and the value as an empty list
-            websites_dict[website].setdefault(section_id, []).append((segment_text, segment_path))
+            websites_dict[website].setdefault(section_title, []).append((segment_text, segment_path))
 
         # if there is no website key:
             # set the key as the website and the value as a new dictionary
             # where the key is the section id and the value is a list of tuples
         else:
-            websites_dict.setdefault(website, {section_id: [(segment_text, segment_path)]})
+            websites_dict.setdefault(website, {section_title: [(segment_text, segment_path)]})
 
     return render_template("favorites.html", websites_dict = websites_dict, github_name = user.github_name)
 
