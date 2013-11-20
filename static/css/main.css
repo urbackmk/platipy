@@ -27,3 +27,7 @@ p{
     right: 3px;
     top: 0px;
 }
+
+.no-bullet{
+    list-style-type: none;
+}

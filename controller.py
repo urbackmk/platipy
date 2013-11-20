@@ -188,7 +188,7 @@ def favorites():
         segment_path = favorite.section.html_section
         page_title = favorite.section.page_title
         section_title = favorite.section.section_title
-        segment_text = favorite.section.segment_text
+        segment_text = favorite.section.segment_text.replace('\n', '<br />')
 
         section_dict = {section_title: [(segment_text, segment_path)]}
 

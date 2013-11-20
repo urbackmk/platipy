@@ -9,24 +9,28 @@
 
     <body style="margin-left: 50px">
             {% if websites_dict %}
-                <h2>Favorites for {{github_name}}:</h2>
-
+                <div class="row">
+                    <h3>Favorites for {{github_name}}:</h3>
+                </div>
                 {% for key, value in websites_dict.iteritems() %}
                 <div class="row">
-                    <p>Website: {{key}}</p>
+                    <p><span class="glyphicon glyphicon-folder-open"></span>  <strong>{{key}}</strong></p>
 
                         {% for key2, value2 in value.iteritems() %}
-                        <ul>Page Title: {{key2}}</br></br>
-
-                            {% for key3, value3 in value2.iteritems() %}
-                            <ul>Section: {{key3}}</br></br>
-                                {% for item in value3 %}
-                                <tr>
-                                    <li><a href="{{item[1]}}" target="_blank">Segment: {{item[0]}}</a></li>
-                                </tr>
-                                {% endfor %}
-                            </ul>
-                            {% endfor %}
+                        <ul class="no-bullet">
+                            <li><span class="glyphicon glyphicon-folder-open"></span>  {{key2}}</br></br>
+                                <ul class="no-bullet">
+                                    {% for key3, value3 in value2.iteritems() %}
+                                    <li><span class="glyphicon glyphicon-folder-open"></span>  {{key3}}</br></br>
+                                        {% for item in value3 %}
+                                        <ul>
+                                            <li><a href="{{item[1]}}" target="_blank">{{item[0]|safe}}</a></li>
+                                        </ul>
+                                        {% endfor %}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
                         </ul>
                         {% endfor %}
                 </div>
