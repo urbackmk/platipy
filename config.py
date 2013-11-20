@@ -1,6 +1,6 @@
 import os
 
-DB_URL = os.environ.get("DATABASE_URL", "sqlite:///platipy_app.db")
+DB_URL = os.environ.get("DATABASE_URL", "sqlite:///platipy_app2.db")
 
 
 client_id = os.environ.get("GITHUB_CLIENT_ID", "")

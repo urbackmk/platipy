@@ -27,16 +27,16 @@ class Section(Base):
 
     id = Column(Integer, primary_key=True)
     html_section = Column(String(200))
-    site_id = Column(ForeignKey('sites.id'), nullable=True)
     num_favorites = Column(Integer, default=0)
+    segment_text = Column(String(1000))
 
     @classmethod
-    def from_html_section(cls, html_section):
+    def from_html_section(cls, html_section, segment_text):
         section = session.query(cls).filter_by(html_section=html_section).first()
         if section:
             return section
         else:
-            new_section = cls(html_section=html_section)
+            new_section = cls(html_section=html_section, segment_text=segment_text)
             session.add(new_section)
             session.commit()
             return new_section
@@ -66,12 +66,6 @@ class Favorite(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
 
     section = relationship("Section", backref="favorite")
-
-class Site(Base):
-    __tablename__ = "sites"
-
-    id = Column(Integer, primary_key=True)
-    url = Column(String(255), nullable=True)
 
 def create_tables():
     Base.metadata.create_all(engine)

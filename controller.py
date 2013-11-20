@@ -9,6 +9,7 @@ import config
 import re
 import cgi
 import random
+import pprint
 
 from pygments import highlight
 from pygments.lexers import PythonLexer, guess_lexer
@@ -85,8 +86,12 @@ def clear():
 @app.route("/comment")
 def show_comments():
     html_section = request.args.get("html_section")
+    segment_text = request.args.get("segmentText")
+
+    print segment_text
+
     user_id = get_user_id()
-    section = model.Section.from_html_section(html_section)
+    section = model.Section.from_html_section(html_section, segment_text)
     
     favorite = None
     if section:
@@ -167,23 +172,41 @@ def set_favorite():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
-# @app.route("/show_favorites")
-# def show_favorites():
-#     user_id = get_user_id()
-#     favorites_list = model.session.query(model.Favorite).filter_by(user_id=user_id).all()
-#     favorite_sites = {}
-#     favorite_sections = {}
-#     for favorite in favorites_list:
-#         favorite_sites[favorite.section.html_section.split("http://")[1].split("/")[0]] = 1
-#         print favorite.section.html_section.split("http://")[1].split("#")[1]
-#         favorite_sections[favorite.section.html_section.split("http://")[1].split("/")[1].split("#")[1].split(":")[0]] = 1
-#     return render_template("favorites.html", favorite_sections=favorite_sections, favorite_sites=favorite_sites)
+@app.route("/favorites")
+def favorites():
+    user_id = get_user_id()
+    user = model.session.query(model.User).filter_by(id = user_id).first()
+    favorites_list = model.session.query(model.Favorite).filter_by(user_id=user_id).all()
 
-# store text of segment as new column in **segments** table
-# store title of section as new column in segments table
-# create dictionary in show favorites: {website:{section:[text of segment]}}
-# pass dictionary to view
-# use jinja dictsort
+    print favorites_list
+
+    websites_dict = {}
+
+    # {website: {section id:[list of segment paths]}}
+    for favorite in favorites_list:
+        website = favorite.section.html_section.split("http://")[1].split("/")[0]
+        section_id = favorite.section.html_section.split("#")[1].split(":")[0]
+        segment_path = favorite.section.html_section
+
+        # if there is a website entry:
+        if websites_dict.get(website):
+            # if there is a matching section id:
+            if websites_dict[website].get(section_id):
+                # add a segment path
+                websites_dict[website][section_id].append(segment_path)
+            # if there is not a matching section id:
+            else:
+                # create one and create a list with the segment path
+                websites_dict[website][section_id] = [segment_path]
+        # if there is no website entry yet:
+        else:
+            # set the key as the website and the value as a new dictionary
+            # where the key is the section id and the value is a list with a segment path
+            websites_dict[website] = {section_id: [segment_path]}
+
+        print json.dumps(websites_dict, indent=4)
+
+    return render_template("favorites.html", websites_dict = websites_dict, github_name = user.github_name)
 
 @app.route("/vote", methods=["POST"])
 def vote():

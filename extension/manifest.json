@@ -1,7 +1,7 @@
 {
-    "name": "Platypus page action by URL",
+    "name": "Platipy chrome extension",
     "version": "1.0",
-    "description": "Shows a page action for docs.python.org pages",
+    "description": "enables inline commenting and favoriting for readthedocs documentation",
     "background": {
         "scripts": ["eventPage.js"],
         "persistent": false

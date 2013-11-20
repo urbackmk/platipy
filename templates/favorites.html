@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chrome documentation extension</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/css/main.css" rel="stylesheet">
+    </head>
+
+    <body style="margin-left: 50px">
+            {% if websites_dict %}
+                <h2>Favorites for {{github_name}}:</h2>
+
+                {% for key, value in websites_dict.iteritems() %}
+                <div class="row">
+                    <p>{{key}}</p>
+                        {% for key2, value2 in value.iteritems() %}
+                        <p>{{key2}}</p>
+                            {% for item in value2 %}
+                            <ul>
+                                <li><a href="{{item}}" target="_blank">{{item}}</a></li>
+                            </ul>
+                            {% endfor %}
+                        {% endfor %}
+                </div>
+                {% endfor %}
+
+            {% else %}
+                <p> You don't have any favorites yet. </p>
+            {% endif %}
+    </body>
+</html>

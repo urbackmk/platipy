@@ -1,10 +1,12 @@
-var DOMAIN = "platipy.herokuapp.com";
-// var DOMAIN = "localhost:5000";
+// var DOMAIN = "platipy.herokuapp.com";
+var DOMAIN = "localhost:5000";
 
-var createIframe = function(htmlSection, iframeId){
+
+//also needs to pass the text of the segment
+var createIframe = function(htmlSection, iframeId, $segmentElementText){
     var $iframe = $('<iframe></iframe>');
     var encodedHtmlSection = encodeURIComponent(htmlSection);
-    $iframe.attr("src", "http://" + DOMAIN + "/comment?html_section=" + encodedHtmlSection);
+    $iframe.attr("src", "http://" + DOMAIN + "/comment?html_section=" + encodedHtmlSection + "&segmentText=" + encodeURIComponent($segmentElementText));
     $iframe.attr("id", iframeId);
     $iframe.attr("width", "100%");
     $iframe.attr("scrolling", "no");
@@ -27,7 +29,8 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
         var urlMinusSection = location.href.split("#")[0];
         if ($iframe.length === 0){
             var htmlSection = urlMinusSection + "#" + $sectionElement.attr('id') + ":" + md5($segmentElement.text());
-            $iframe = createIframe(htmlSection, iframeId);
+            var $segmentElementText = $segmentElement.text();
+            $iframe = createIframe(htmlSection, iframeId, $segmentElementText);
             $segmentElement.append($iframe);
 
             // using a jquery plug-in for cross-domain iframe resizing

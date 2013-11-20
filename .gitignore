@@ -10,7 +10,6 @@ extension/platipy_extension.zip
 extension.crx
 extension.pem
 readthedocs_api_interface.py
-templates/favorites.html
 test_url_detector.py
 oauth_testing_controller.py
 feature_notes.txt
