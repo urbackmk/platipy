@@ -15,12 +15,13 @@
                 <div class="row">
                     <p>{{key}}</p>
                         {% for key2, value2 in value.iteritems() %}
-                        <p>{{key2}}</p>
+                        <ul>{{key2}}</br></br>
                             {% for item in value2 %}
-                            <ul>
+                            <tr>
                                 <li><a href="{{item[1]}}" target="_blank">{{item[0]}}</a></li>
-                            </ul>
+                            </tr>
                             {% endfor %}
+                        </ul>
                         {% endfor %}
                 </div>
                 {% endfor %}

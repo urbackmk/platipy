@@ -31,13 +31,12 @@ class Section(Base):
     segment_text = Column(String(1000))
 
     @classmethod
-    def from_html_section(cls, html_section, *args):
+    # def from_html_section(cls, html_section, segment_text="", page_title="", section_title="")
+    def from_html_section(cls, html_section, segment_text=""):
         section = session.query(cls).filter_by(html_section=html_section).first()
         if section:
             return section
         else:
-            for arg in args:
-                segment_text = arg
             new_section = cls(html_section=html_section, segment_text=segment_text)
             session.add(new_section)
             session.commit()

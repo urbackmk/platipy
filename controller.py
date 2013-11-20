@@ -180,13 +180,17 @@ def favorites():
 
     websites_dict = {}
 
+    # {website: {page title:{section id:[(segment text, segment url)]}}}
     # {website: {section id:[(segment text, segment url)]}}
-    # {website: {section id:[list of segment paths]}}
     for favorite in favorites_list:
         website = favorite.section.html_section.split("http://")[1].split("/")[0]
         section_id = favorite.section.html_section.split("#")[1].split(":")[0]
         segment_path = favorite.section.html_section
         segment_text = favorite.section.segment_text
+
+        # use setdefault instead
+        # website_dict[website].setdefault(section_id, []).append((segment_text, segment_path))
+        # OR to split it up: segment_list = website_dict[website].setdefault(section_id, [])
 
         # if there is a website entry:
         if websites_dict.get(website):
