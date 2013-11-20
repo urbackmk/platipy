@@ -188,25 +188,19 @@ def favorites():
         segment_path = favorite.section.html_section
         segment_text = favorite.section.segment_text
 
-        # use setdefault instead
-        # website_dict[website].setdefault(section_id, []).append((segment_text, segment_path))
-        # OR to split it up: segment_list = website_dict[website].setdefault(section_id, [])
-
         # if there is a website entry:
         if websites_dict.get(website):
+        
             # if there is a matching section id:
-            if websites_dict[website].get(section_id):
-                # add a segment path
-                websites_dict[website][section_id].append((segment_text, segment_path))
-            # if there is not a matching section id:
-            else:
-                # create one and create a list with the segment path
-                websites_dict[website][section_id] = [(segment_text, segment_path)]
-        # if there is no website entry yet:
-        else:
+                # append (segment_text, segment_path)
+                # otherwise set the key as the section id and the value as an empty list
+            websites_dict[website].setdefault(section_id, []).append((segment_text, segment_path))
+
+        # if there is no website key:
             # set the key as the website and the value as a new dictionary
-            # where the key is the section id and the value is a list with a segment path
-            websites_dict[website] = {section_id: [(segment_text, segment_path)]}
+            # where the key is the section id and the value is a list of tuples
+        else:
+            websites_dict.setdefault(website, {section_id: [(segment_text, segment_path)]})
 
     return render_template("favorites.html", websites_dict = websites_dict, github_name = user.github_name)
 
