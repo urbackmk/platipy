@@ -3,10 +3,14 @@ var DOMAIN = "localhost:5000";
 
 
 //also needs to pass the text of the segment
-var createIframe = function(htmlSection, iframeId, $segmentElementText){
+var createIframe = function(htmlSection, iframeId, $pageTitle, $sectionTitle, $segmentText){
     var $iframe = $('<iframe></iframe>');
     var encodedHtmlSection = encodeURIComponent(htmlSection);
-    $iframe.attr("src", "http://" + DOMAIN + "/comment?html_section=" + encodedHtmlSection + "&segmentText=" + encodeURIComponent($segmentElementText));
+    $iframe.attr("src", "http://" + DOMAIN +
+        "/comment?html_section=" + encodedHtmlSection +
+        "&pageTitle=" + encodeURIComponent($pageTitle) +
+        "&sectionTitle=" + encodeURIComponent($sectionTitle) +
+        "&segmentText=" + encodeURIComponent($segmentText));
     $iframe.attr("id", iframeId);
     $iframe.attr("width", "100%");
     $iframe.attr("scrolling", "no");
@@ -29,8 +33,11 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
         var urlMinusSection = location.href.split("#")[0];
         if ($iframe.length === 0){
             var htmlSection = urlMinusSection + "#" + $sectionElement.attr('id') + ":" + md5($segmentElement.text());
-            var $segmentElementText = $segmentElement.text();
-            $iframe = createIframe(htmlSection, iframeId, $segmentElementText);
+            var $pageTitle = document.title;
+            var $hTag = $('#' + $sectionElement.attr('id') + '> :header').eq(0);
+            var $sectionTitle = $hTag.text();
+            var $segmentText = $segmentElement.text();
+            $iframe = createIframe(htmlSection, iframeId, $pageTitle, $sectionTitle, $segmentText);
             $segmentElement.append($iframe);
 
             // using a jquery plug-in for cross-domain iframe resizing

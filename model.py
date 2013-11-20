@@ -28,16 +28,17 @@ class Section(Base):
     id = Column(Integer, primary_key=True)
     html_section = Column(String(200))
     num_favorites = Column(Integer, default=0)
+    page_title = Column(String(100))
+    section_title = Column(String(100))
     segment_text = Column(String(1000))
 
     @classmethod
-    # def from_html_section(cls, html_section, segment_text="", page_title="", section_title="")
-    def from_html_section(cls, html_section, segment_text=""):
+    def from_html_section(cls, html_section, page_title="", section_title="", segment_text=""):
         section = session.query(cls).filter_by(html_section=html_section).first()
         if section:
             return section
         else:
-            new_section = cls(html_section=html_section, segment_text=segment_text)
+            new_section = cls(html_section=html_section, segment_text=segment_text, page_title=page_title, section_title=section_title)
             session.add(new_section)
             session.commit()
             return new_section

@@ -86,12 +86,14 @@ def clear():
 @app.route("/comment")
 def show_comments():
     html_section = request.args.get("html_section")
+    page_title = request.args.get("pageTitle")
+    section_title = request.args.get("sectionTitle")
     segment_text = request.args.get("segmentText")
 
     print segment_text
 
     user_id = get_user_id()
-    section = model.Section.from_html_section(html_section, segment_text)
+    section = model.Section.from_html_section(html_section, page_title, section_title, segment_text)
     
     favorite = None
     if section:
