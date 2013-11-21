@@ -90,8 +90,6 @@ def show_comments():
     section_title = request.args.get("sectionTitle")
     segment_text = request.args.get("segmentText")
 
-    print segment_text
-
     user_id = get_user_id()
     section = model.Section.from_html_section(html_section, page_title, section_title, segment_text)
     
@@ -182,7 +180,7 @@ def favorites():
 
     websites_dict = {}
 
-    # {website: {page title:{section title:[(segment text, segment path)]}}}
+    # structure for websites_dict - {website: {page title:{section title:[(segment text, segment path)]}}}
     for favorite in favorites_list:
         website = favorite.section.html_section.split("http://")[1].split("/")[0]
         segment_path = favorite.section.html_section
@@ -238,13 +236,6 @@ def vote():
 
 
     return redirect(url_for('show_comments', html_section=html_section))
-    
-
-# @app.route("/page_favorites")
-# def show_page_favorites(url):
-
-#     return json.dumps(favorites)
-
 
 def get_user_id():
     if session.get('github_name'):
