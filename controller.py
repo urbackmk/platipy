@@ -188,20 +188,10 @@ def favorites():
         section_title = favorite.section.section_title
         segment_text = favorite.section.segment_text.replace('\n', '<br />').strip("<br />")
 
-        section_dict = {section_title: [(segment_text, segment_path)]}
-
-        # if there is a website entry:
-        if websites_dict.get(website):
-        
-            # if there is a matching page title:
-            websites_dict[website].setdefault(page_title, section_dict)
-
-            # if there is a matching section title:
-            websites_dict[website][page_title].setdefault(section_title, []).append((segment_text, segment_path))
-
-        # if there is no website key:
-        else:
-            websites_dict.setdefault(website, {page_title: section_dict})
+        websites_dict.setdefault(website, {})
+        websites_dict[website].setdefault(page_title, {})
+        websites_dict[website][page_title].setdefault(section_title, [])
+        websites_dict[website][page_title][section_title].append((segment_text, segment_path))
 
     return render_template("favorites.html", websites_dict = websites_dict, github_name = user.github_name)
 
