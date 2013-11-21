@@ -17,6 +17,8 @@ feature_notes.txt
 plan_of_action.txt
 templates/test.txt
 static/platipy_extension.crx
+templates/favorites2.html
+templates/favorites3.html
 *.pyc
 *.db
 .*.swp

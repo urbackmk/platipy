@@ -186,7 +186,7 @@ def favorites():
         segment_path = favorite.section.html_section
         page_title = favorite.section.page_title
         section_title = favorite.section.section_title
-        segment_text = favorite.section.segment_text.replace('\n', '<br />')
+        segment_text = favorite.section.segment_text.replace('\n', '<br />').strip("<br />")
 
         section_dict = {section_title: [(segment_text, segment_path)]}
 
@@ -237,6 +237,15 @@ def vote():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
+# route for JSONP to highlight color of the icon button
+# @app.route("/num_comments")
+# def send_num_comments(html_section):
+#     section = model.session.query(model.Section).filter_by(html_section=html_section).first()
+#     list_of_comments = model.session.query(model.Comment).filter_by(section_id=section.id).all()
+#     num_comments = len(list_of_comments)
+
+#     return json.dumps(num_comments)
+
 def get_user_id():
     if session.get('github_name'):
         github_name = session['github_name']
@@ -247,7 +256,7 @@ def get_user_id():
         else:
             user = model.User(github_name=github_name)
             model.session.add(user)
-            model.session.commit
+            model.session.commit()
             return user.id
     return None
 
