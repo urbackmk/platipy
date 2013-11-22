@@ -195,6 +195,29 @@ def favorites():
 
     return render_template("favorites.html", websites_dict = websites_dict, github_name = user.github_name)
 
+# @app.route("/favorites/<website>")
+# def website_favorites():
+#     user_id = get_user_id()
+#     user = model.session.query(model.User).filter_by(id = user_id).first()
+#     favorites_list = model.session.query(model.Favorite).filter_by(user_id=user_id).all()
+
+#     websites_dict = {}
+
+#     # structure for websites_dict - {website: {page title:{section title:[(segment text, segment path)]}}}
+#     for favorite in favorites_list:
+#         website = favorite.section.html_section.split("http://")[1].split("/")[0]
+#         segment_path = favorite.section.html_section
+#         page_title = favorite.section.page_title
+#         section_title = favorite.section.section_title
+#         segment_text = favorite.section.segment_text.replace('\n', '<br />').strip("<br />")
+
+#         websites_dict.setdefault(website, {})
+#         websites_dict[website].setdefault(page_title, {})
+#         websites_dict[website][page_title].setdefault(section_title, [])
+#         websites_dict[website][page_title][section_title].append((segment_text, segment_path))
+
+#     return json.dumps(websites_dict[website])
+
 @app.route("/vote", methods=["POST"])
 def vote():
     """adjusts rating of a comment according to upvote or downvote"""
@@ -227,14 +250,20 @@ def vote():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
-# route for JSONP to highlight color of the icon button
-# @app.route("/num_comments")
-# def send_num_comments(html_section):
-#     section = model.session.query(model.Section).filter_by(html_section=html_section).first()
-#     list_of_comments = model.session.query(model.Comment).filter_by(section_id=section.id).all()
-#     num_comments = len(list_of_comments)
+#route for JSONP to highlight color of the icon button
+# needs to be passed html_section
+@app.route("/num_comments")
+def send_num_comments():
+    # html_section = request.args.get("html_section")
+    # section = model.session.query(model.Section).filter_by(html_section=html_section).first()
+    # list_of_comments = model.session.query(model.Comment).filter_by(section_id=section.id).all()
+    # num_comments = len(list_of_comments)
 
-#     return json.dumps(num_comments)
+    # return json.dumps(num_comments)
+    return json.dumps({"name":"Meghan", "favorite_numbers":[1,2,3]})
+
+# http://localhost:5000/num_comments?callback=jQuery20307671111789532006_1385011539707&_=1385011539708
+# response: 'jQuery20307671111789532006_1385011539707("hello")'
 
 def get_user_id():
     if session.get('github_name'):

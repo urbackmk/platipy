@@ -18,3 +18,17 @@ $(document).ready(function(){
         $('#text_area').val($('#text_area').val() + '[code]\n[/code]');
     });
 });
+
+// toggle info on landing page
+
+$('.favorites-row').hide();
+
+$('#about-button').click(function(){
+    $('.about-row').show();
+    $('.favorites-row').hide();
+});
+
+$('.website-button').click(function(){
+    $('.about-row').hide();
+    $('.favorites-row').show();
+});

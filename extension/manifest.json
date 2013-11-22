@@ -13,7 +13,8 @@
     },
     //tabs permission needed for icon to show in url bar
     "permissions" : [
-        "tabs"
+        "tabs",
+        "http://*/"
     ],
     "icons" : {
         "48" : "icons/platipy_icon-48.png",

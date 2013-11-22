@@ -1,5 +1,5 @@
-var DOMAIN = "platipy.herokuapp.com";
-// var DOMAIN = "localhost:5000";
+// var DOMAIN = "platipy.herokuapp.com";
+var DOMAIN = "localhost:5000";
 
 
 //also needs to pass the text of the segment
@@ -93,3 +93,19 @@ var main = function(){
 };
 
 main();
+
+
+$.getJSON("http://" + DOMAIN + "/num_comments", function(data){
+    console.log("data from getJSON:", data);
+});
+
+// var xhr = new XMLHttpRequest();
+// xhr.open("GET", "http://" + DOMAIN + "/num_comments", true);
+// xhr.onreadystatechange = function() {
+//   if (xhr.readyState == 4) {
+//     console.log("data from an xhr:", xhr.responseText);
+//   }
+// };
+// xhr.send();
+
+
