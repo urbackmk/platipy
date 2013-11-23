@@ -28,9 +28,6 @@ client_secret = config.client_secret
 authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
-@app.route("/")
-def landing_page():
-    return render_template("landing_page.html")
 
 # Call this when a user pushes a Sign In to Github button
 @app.route("/authenticate")
@@ -82,6 +79,32 @@ def log_out():
 def clear():
     session.clear()
     return redirect("/comment")
+
+@app.route("/")
+def landing_page():
+    user_id = get_user_id()
+    user = model.session.query(model.User).filter_by(id = user_id).first()
+    github_name = None
+    if user:
+        github_name = user.github_name
+    favorites_list = model.session.query(model.Favorite).filter_by(user_id=user_id).all()
+
+    websites_dict = {}
+
+    # structure for websites_dict - {website: {page title:{section title:[(segment text, segment path)]}}}
+    for favorite in favorites_list:
+        website = favorite.section.html_section.split("http://")[1].split("/")[0]
+        segment_path = favorite.section.html_section
+        page_title = favorite.section.page_title
+        section_title = favorite.section.section_title
+        segment_text = favorite.section.segment_text.replace('\n', '<br />').strip("<br />")
+
+        websites_dict.setdefault(website, {})
+        websites_dict[website].setdefault(page_title, {})
+        websites_dict[website][page_title].setdefault(section_title, [])
+        websites_dict[website][page_title][section_title].append((segment_text, segment_path))
+
+    return render_template("landing_page.html", websites_dict = websites_dict, github_name = github_name)
 
 @app.route("/comment")
 def show_comments():
@@ -172,52 +195,6 @@ def set_favorite():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
-@app.route("/favorites")
-def favorites():
-    user_id = get_user_id()
-    user = model.session.query(model.User).filter_by(id = user_id).first()
-    favorites_list = model.session.query(model.Favorite).filter_by(user_id=user_id).all()
-
-    websites_dict = {}
-
-    # structure for websites_dict - {website: {page title:{section title:[(segment text, segment path)]}}}
-    for favorite in favorites_list:
-        website = favorite.section.html_section.split("http://")[1].split("/")[0]
-        segment_path = favorite.section.html_section
-        page_title = favorite.section.page_title
-        section_title = favorite.section.section_title
-        segment_text = favorite.section.segment_text.replace('\n', '<br />').strip("<br />")
-
-        websites_dict.setdefault(website, {})
-        websites_dict[website].setdefault(page_title, {})
-        websites_dict[website][page_title].setdefault(section_title, [])
-        websites_dict[website][page_title][section_title].append((segment_text, segment_path))
-
-    return render_template("favorites.html", websites_dict = websites_dict, github_name = user.github_name)
-
-# @app.route("/favorites/<website>")
-# def website_favorites():
-#     user_id = get_user_id()
-#     user = model.session.query(model.User).filter_by(id = user_id).first()
-#     favorites_list = model.session.query(model.Favorite).filter_by(user_id=user_id).all()
-
-#     websites_dict = {}
-
-#     # structure for websites_dict - {website: {page title:{section title:[(segment text, segment path)]}}}
-#     for favorite in favorites_list:
-#         website = favorite.section.html_section.split("http://")[1].split("/")[0]
-#         segment_path = favorite.section.html_section
-#         page_title = favorite.section.page_title
-#         section_title = favorite.section.section_title
-#         segment_text = favorite.section.segment_text.replace('\n', '<br />').strip("<br />")
-
-#         websites_dict.setdefault(website, {})
-#         websites_dict[website].setdefault(page_title, {})
-#         websites_dict[website][page_title].setdefault(section_title, [])
-#         websites_dict[website][page_title][section_title].append((segment_text, segment_path))
-
-#     return json.dumps(websites_dict[website])
-
 @app.route("/vote", methods=["POST"])
 def vote():
     """adjusts rating of a comment according to upvote or downvote"""
@@ -255,7 +232,7 @@ def send_num_comments():
     comments_dictionary = {}
     page_title = request.args.get("pageTitle")
     sections = model.session.query(model.Section).filter_by(page_title=page_title).all()
-    
+
     for section in sections:
         if len(section.comment) > 0:
             comments_dictionary[section.html_section] = len(section.comment)
