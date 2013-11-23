@@ -51,7 +51,6 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
                 enablePublicMethods:true,
                 interval:32,
                 callback:function(messageData){
-                    console.log("got some messageData", messageData);
                 }
             });
 
@@ -61,11 +60,17 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
     };
 };
 
+var returnHtmlSection = function($segmentElement, $sectionElement){
+    var urlMinusSection = location.href.split("#")[0];
+    var htmlSection = urlMinusSection +
+                "#" + $sectionElement.attr('id') +
+                ":" + md5($segmentElement.text());
+    return htmlSection;
+};
 // "sectionElement" = <div class="section"></div>
 // "segmentElement" == a node that we're commenting on
+var infoIconCache = {};
 
-//displays an info icon at the beginning of every h2 element
-//loads an iframe for the section specified in the url hash
 var main = function(){
     var $segmentElements = $(".section > p, .section > dl, .section > table, .section > ol, " +
           ".section > div.highlight-python, .section > ul, .section > .admonition, .section > blockquote");
@@ -77,15 +82,13 @@ var main = function(){
 
             var clickHandler = onInfoButtonClick($segmentElement, $sectionElement);
             $infoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon_25px.png");
-            // $infoIcon.attr("class", "icon-button");
-            // var $greenInfoIcon = $('<img></img>');
-            // $greenInfoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon_green_25px.png");
-            // $greenInfoIcon.attr("class", "icon-button");
-
-            
             $infoIcon.attr("style", "position: absolute; margin-left: -30px");
             $infoIcon.click(clickHandler);
             $(this).prepend($infoIcon);
+
+            // store infoIcon in the dictionary cache so that I can change it's attributes later
+            htmlSection = returnHtmlSection($segmentElement, $sectionElement);
+            infoIconCache[htmlSection] = $infoIcon;
 
             // if the url is pointing to a specific segment element:
             if (md5($segmentElement.text()) === location.hash.split(":")[1]){
@@ -102,12 +105,17 @@ var main = function(){
 
 main();
 
-// $.getJSON("http://" + DOMAIN + "/num_comments", function(data){
-//     console.log("data from getJSON:", data);
-// });
+var changeInfoIconColor = function(){
+    $.getJSON("http://" + DOMAIN + "/num_comments", {pageTitle: document.title} )
+        .done(
+            function(data){
+                for (var item in data){
+                    if (item in infoIconCache){
+                        infoIconCache[item].attr("src", "http://" + DOMAIN + "/static/images/info_icon_green_25px.png");
+                    }
+                }
+            });
+};
 
-$.getJSON("http://" + DOMAIN + "/num_comments", {pageTitle: document.title} )
-    .done(function(data){
-        console.log("data from getJSON:", data);
-});
+changeInfoIconColor();
 
