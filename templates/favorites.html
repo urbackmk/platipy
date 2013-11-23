@@ -12,12 +12,11 @@
             <div class="list-group">
                 <span class="sidebar-text">PLATIPY</span>
                 <a class="list-group-item" id="about-button">About</a>
-<!--                 <a class="list-group-item" id="install-button">Install</a>
-                <a class="list-group-item" id="contact-button">Contact</a> -->
                 <span class="sidebar-text">
                     Favorites for {{github_name}}</span>
-                {% for website, pageDictionary in websites_dict.iteritems() %}
-                <a class="website-button list-group-item">{{website}}</a>
+                {% for website, pageDictionary in websites_dict|dictsort %}
+                <a class="website-button list-group-item" 
+                    id="website-link-{{loop.index}}">{{website}}</a>
                 {% endfor %}
             </div>
         </div>
@@ -51,24 +50,24 @@
                 </ul>
             </div>
             {% if websites_dict %}
-                {% for website, pageDictionary in websites_dict.iteritems() %}
-                {% for pageTitle, sectionDictionary in pageDictionary.iteritems() %}
-                <div class="favorites-row row" id="{{pageTitle}}">
-                    <span class="glyphicon glyphicon-file"></span>  
-                    <h4 style="display:inline">{{pageTitle}}</h4></br></br>
-                {% for sectionTitle, segmentList in sectionDictionary.iteritems() %}
-                <div class="favorites-row row">
-                    <ul class="no-bullet">
-                        <li><h5>{{sectionTitle}}</h5></br>
-                        {% for tuple in segmentList %}
-                            <p><a class="text-muted" href="{{tuple[1]}}" target="_blank">{{tuple[0]|safe}}</a></p>
-                        {% endfor %}
-                        </li>
-                    </ul>
+                {% for website, pageDictionary in websites_dict|dictsort %}
+                <div id="website-{{loop.index}}" class="favorites-row row">
+                    {% for pageTitle, sectionDictionary in pageDictionary|dictsort %}
+<!--                     <div class="favorites-row row" id="pageTitle-{{loop.index}}"> -->
+                        <span class="glyphicon glyphicon-file"></span>  
+                        <h4 style="display:inline">{{pageTitle}}</h4></br></br>
+                    <!-- </div> -->
+                    {% for sectionTitle, segmentList in sectionDictionary|dictsort %}
+                        <ul class="no-bullet">
+                            <li><h5>{{sectionTitle}}</h5></br>
+                            {% for tuple in segmentList|sort %}
+                                <p><a class="text-muted" href="{{tuple[1]}}" target="_blank">{{tuple[0]|safe}}</a></p>
+                            {% endfor %}
+                            </li>
+                        </ul>
+                    {% endfor %}
+                    {% endfor %}
                 </div>
-                {% endfor %}
-                </div>
-                {% endfor %}
                 {% endfor %}
 
             {% else %}

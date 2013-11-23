@@ -19,16 +19,23 @@ $(document).ready(function(){
     });
 });
 
-// toggle info on landing page
-
+// default to showing .about-row and hiding .favorites-row
 $('.favorites-row').hide();
 
+// on About button click
 $('#about-button').click(function(){
-    $('.about-row').show();
     $('.favorites-row').hide();
+    $('.about-row').show();
 });
 
+// on favorites website button click
 $('.website-button').click(function(){
     $('.about-row').hide();
-    $('.favorites-row').show();
+    $('.favorites-row').hide();
+    var id = $(this).attr('id').replace("-link", "");
+    $('#'+id).show();
+    console.log(id);
 });
+
+// hide everything
+// show just what you want

@@ -250,20 +250,19 @@ def vote():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
-#route for JSONP to highlight color of the icon button
-# needs to be passed html_section
 @app.route("/num_comments")
 def send_num_comments():
-    # html_section = request.args.get("html_section")
-    # section = model.session.query(model.Section).filter_by(html_section=html_section).first()
-    # list_of_comments = model.session.query(model.Comment).filter_by(section_id=section.id).all()
-    # num_comments = len(list_of_comments)
+    comments_dictionary = {}
+    page_title = request.args.get("pageTitle")
+    sections = model.session.query(model.Section).filter_by(page_title=page_title).all()
+    
+    for section in sections:
+        if len(section.comment) > 0:
+            comments_dictionary[section.html_section] = len(section.comment)
 
-    # return json.dumps(num_comments)
-    return json.dumps({"name":"Meghan", "favorite_numbers":[1,2,3]})
+    return json.dumps(comments_dictionary)
+    # return json.dumps({"name":"Meghan", "favorite_numbers":[1,2,3]})
 
-# http://localhost:5000/num_comments?callback=jQuery20307671111789532006_1385011539707&_=1385011539708
-# response: 'jQuery20307671111789532006_1385011539707("hello")'
 
 def get_user_id():
     if session.get('github_name'):

@@ -32,7 +32,9 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
         var $iframe = $('#' + iframeId);
         var urlMinusSection = location.href.split("#")[0];
         if ($iframe.length === 0){
-            var htmlSection = urlMinusSection + "#" + $sectionElement.attr('id') + ":" + md5($segmentElement.text());
+            var htmlSection = urlMinusSection +
+                "#" + $sectionElement.attr('id') +
+                ":" + md5($segmentElement.text());
             var $pageTitle = document.title;
             var $hTag = $('#' + $sectionElement.attr('id') + '> :header').eq(0);
             var $sectionTitle = $hTag.text();
@@ -72,9 +74,15 @@ var main = function(){
             var $sectionElement = $(this).parent();
             var $segmentElement = $(this);
             var $infoIcon = $('<img></img>');
-            var clickHandler = onInfoButtonClick($segmentElement, $sectionElement);
 
+            var clickHandler = onInfoButtonClick($segmentElement, $sectionElement);
             $infoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon_25px.png");
+            // $infoIcon.attr("class", "icon-button");
+            // var $greenInfoIcon = $('<img></img>');
+            // $greenInfoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon_green_25px.png");
+            // $greenInfoIcon.attr("class", "icon-button");
+
+            
             $infoIcon.attr("style", "position: absolute; margin-left: -30px");
             $infoIcon.click(clickHandler);
             $(this).prepend($infoIcon);
@@ -94,18 +102,12 @@ var main = function(){
 
 main();
 
+// $.getJSON("http://" + DOMAIN + "/num_comments", function(data){
+//     console.log("data from getJSON:", data);
+// });
 
-$.getJSON("http://" + DOMAIN + "/num_comments", function(data){
-    console.log("data from getJSON:", data);
+$.getJSON("http://" + DOMAIN + "/num_comments", {pageTitle: document.title} )
+    .done(function(data){
+        console.log("data from getJSON:", data);
 });
-
-// var xhr = new XMLHttpRequest();
-// xhr.open("GET", "http://" + DOMAIN + "/num_comments", true);
-// xhr.onreadystatechange = function() {
-//   if (xhr.readyState == 4) {
-//     console.log("data from an xhr:", xhr.responseText);
-//   }
-// };
-// xhr.send();
-
 
