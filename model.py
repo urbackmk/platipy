@@ -38,7 +38,9 @@ class Section(Base):
         if section:
             return section
         else:
-            new_section = cls(html_section=html_section, segment_text=segment_text, page_title=page_title, section_title=section_title)
+            new_section = cls(html_section=html_section, 
+                segment_text=segment_text, page_title=page_title, 
+                section_title=section_title)
             session.add(new_section)
             session.commit()
             return new_section
