@@ -35,7 +35,7 @@ p{
 .right-of-sidebar{
     margin-left: 300px;
     margin-top: 30px;
-    width: 75%;
+    padding-right: 50px;
 }
 
 /*.row-offcanvas-right

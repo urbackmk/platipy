@@ -5,26 +5,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="/static/css/bootstrap.css" rel="stylesheet">
         <link href="/static/css/main.css" rel="stylesheet">
+        <link href="/static/css/pygments-highlight.css" rel="stylesheet">
     </head>
 
     <body style="margin-left: 50px">
         <div class="sidebar" role="navigation">
+            <span class="sidebar-text">PLATIPY</span>
             <div class="list-group">
-                <span class="sidebar-text">PLATIPY</span>
                 <a class="list-group-item" id="about-button">About</a>
-                
-                {% if github_name %}
-                    <span class="sidebar-text">
-                        Favorites for {{github_name}}</span>
+            </div>
+            {% if github_name %}
+                <span class="sidebar-text">
+                    Favorites for {{github_name}}</span>
+                <div class="list-group">
                     {% for website, pageDictionary in websites_dict|dictsort %}
                     <a class="website-button list-group-item" 
                         id="website-link-{{loop.index}}">{{website}}</a>
                     {% endfor %}
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
 
-        <div class="right-of-sidebar container">
+        <div class="right-of-sidebar">
             <div class="about-row row" id="about">
                 <h3>About</h3>
                 <p>A chrome extension that allows for favoriting, commenting, and adding example code inline to documentation hosted by Read the Docs.</p>
@@ -55,14 +57,11 @@
             {% if websites_dict %}
                 {% for website, pageDictionary in websites_dict|dictsort %}
                 <div id="website-{{loop.index}}" class="favorites-row row">
-                    {% for pageTitle, sectionDictionary in pageDictionary|dictsort %}
-<!--                     <div class="favorites-row row" id="pageTitle-{{loop.index}}"> -->
-                        <span class="glyphicon glyphicon-file"></span>  
-                        <h4 style="display:inline">{{pageTitle}}</h4></br></br>
-                    <!-- </div> -->
+                    {% for pageTitle, sectionDictionary in pageDictionary|dictsort %}  
+                        <h4>{{pageTitle}}</h4>
                     {% for sectionTitle, segmentList in sectionDictionary|dictsort %}
                         <ul class="no-bullet">
-                            <li><h5>{{sectionTitle}}</h5></br>
+                            <li><h5>{{sectionTitle}}</h5>
                             {% for tuple in segmentList|sort %}
                                 <p><a class="text-muted" href="{{tuple[1]}}" target="_blank">{{tuple[0]|safe}}</a></p>
                             {% endfor %}
@@ -74,19 +73,8 @@
                 {% endfor %}
             {% endif %}
         </div>
+
         <script type="text/javascript" src="/static/js/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="/static/js/custom.js"></script>
     </body>
 </html>
-
-<!-- {website: {page title:{section title:[(segment text, segment path)]}}}
-
-options: 
-
-load everything in current handler
-    - display proper section on click
-    - link to nothing with a click handler that hides and shows
-
-make handlers for each website
-    - display proper links with display:none / jquery hide method
-    - websites in sidebar are links to proper handler -->

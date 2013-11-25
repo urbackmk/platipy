@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, render_template, request, redirect, flash, session, url_for
 import model
 import datetime
@@ -95,9 +97,9 @@ def landing_page():
     for favorite in favorites_list:
         website = favorite.section.html_section.split("http://")[1].split("/")[0]
         segment_path = favorite.section.html_section
-        page_title = favorite.section.page_title
-        section_title = favorite.section.section_title
-        segment_text = favorite.section.segment_text.replace('\n', '<br />').strip("<br />")
+        page_title = favorite.section.page_title.replace(u"¶", "")
+        section_title = favorite.section.section_title.replace(u"¶", "")
+        segment_text = pygmentsfilter(favorite.section.segment_text.strip().replace(u"¶", ""))
 
         websites_dict.setdefault(website, {})
         websites_dict[website].setdefault(page_title, {})
@@ -298,7 +300,9 @@ def extract_code(s):
 
 def pygmentsfilter(incoming_string):
     return highlight(incoming_string, PythonLexer(), HtmlFormatter())
-    # return highlight(incoming_string, guess_lexer(incoming_string), HtmlFormatter)
+    # return highlight(incoming_string, guess_lexer(incoming_string), HtmlFormatter())
+
+print pygmentsfilter("@app.context_processor\ndef inject_user():\n\treturn dict(user=g.user)")
 
 if __name__=="__main__":
     # This allows us to use a plain HTTP callback
