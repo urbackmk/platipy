@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="/static/css/bootstrap.css" rel="stylesheet">
         <link href="/static/css/main.css" rel="stylesheet">
-        <link href="/static/css/pygments-highlight.css" rel="stylesheet">
+        <!-- <link href="/static/css/pygments-highlight.css" rel="stylesheet"> -->
     </head>
 
     <body style="margin-left: 50px">
@@ -63,7 +63,7 @@
                         <ul class="no-bullet">
                             <li><h5>{{sectionTitle}}</h5>
                             {% for tuple in segmentList|sort %}
-                                <p><a class="text-muted" href="{{tuple[1]}}" target="_blank">{{tuple[0]|safe}}</a></p>
+                                <p><a class="text-muted" style="color: #999999 ! important" href="{{tuple[1]}}" target="_blank">{{tuple[0]|safe}}</a></p>
                             {% endfor %}
                             </li>
                         </ul>
@@ -78,5 +78,3 @@
         <script type="text/javascript" src="/static/js/custom.js"></script>
     </body>
 </html>
-
-
