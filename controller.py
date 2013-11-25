@@ -51,18 +51,26 @@ def obtain_access_token():
      and store the access token in the browser session"""
 
     github = OAuth2Session(client_id, state=session['oauth_state'])
-    token = github.fetch_token(
-        token_url, client_secret=client_secret, authorization_response=request.url)
+
+    try:
+        token = github.fetch_token(
+            token_url, client_secret=client_secret, authorization_response=request.url)
+    except:
+        session.pop('oauth_state')
+        return
 
     # At this point you can fetch protected resources
     session['oauth_token'] = token
 
 def fetch_github_name():
     """Access a protected resource"""
-    github=OAuth2Session(client_id, token=session['oauth_token'])
-    session['github_name'] = github.get('https://api.github.com/user').json()["login"]
 
-    return session['github_name']
+    if session.get('oauth_state') and session.get('oauth_token'):
+        github=OAuth2Session(client_id, token=session['oauth_token'])
+        session['github_name'] = github.get('https://api.github.com/user').json()["login"]
+        return session['github_name']
+    else:
+        return None
 
 @app.route("/return_to_last")
 def return_to_last():
@@ -277,10 +285,12 @@ def detect_url_and_make_link(incoming_string):
 
     incoming_string = pat1.sub(r'\1<a href="\2" target="_blank">\3</a>', incoming_string)
     incoming_string = pat2.sub(r'\1<a href="http:/\2" target="_blank">\3</a>', incoming_string)
-    safe_string = cgi.escape(incoming_string)
 
-    return safe_string
-    # return incoming_string
+    # need to run cgi.escape on only the unaffected text
+    # safe_string = cgi.escape(incoming_string)
+
+    # return safe_string
+    return incoming_string
 
 @app.template_filter("extract_code")
 def extract_code(s):
@@ -302,8 +312,6 @@ def extract_code(s):
 def pygmentsfilter(incoming_string):
     return highlight(incoming_string, PythonLexer(), HtmlFormatter())
     # return highlight(incoming_string, guess_lexer(incoming_string), HtmlFormatter())
-
-print pygmentsfilter("@app.context_processor\ndef inject_user():\n\treturn dict(user=g.user)")
 
 if __name__=="__main__":
     # This allows us to use a plain HTTP callback
