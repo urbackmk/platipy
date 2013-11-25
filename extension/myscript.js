@@ -1,5 +1,5 @@
-var DOMAIN = "platipy.herokuapp.com";
-// var DOMAIN = "localhost:5000";
+// var DOMAIN = "platipy.herokuapp.com";
+var DOMAIN = "localhost:5000";
 
 
 //also needs to pass the text of the segment
@@ -40,7 +40,9 @@ var onInfoButtonClick = function($segmentElement, $sectionElement){
             var $sectionTitle = $hTag.text();
             var $segmentText = $segmentElement.text();
             $iframe = createIframe(htmlSection, iframeId, $pageTitle, $sectionTitle, $segmentText);
-            $segmentElement.append($iframe);
+            var $p = $('<p></p>');
+            $segmentElement.append($p);
+            $p.append($iframe);
 
             // using a jquery plug-in for cross-domain iframe resizing
             $iframe.iFrameSizer({

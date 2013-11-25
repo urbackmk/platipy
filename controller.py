@@ -100,6 +100,7 @@ def landing_page():
         page_title = favorite.section.page_title.replace(u"¶", "")
         section_title = favorite.section.section_title.replace(u"¶", "")
         segment_text = pygmentsfilter(favorite.section.segment_text.strip().replace(u"¶", ""))
+        # segment_text = favorite.section.segment_text.strip().replace(u"¶", "")
 
         websites_dict.setdefault(website, {})
         websites_dict[website].setdefault(page_title, {})
@@ -276,10 +277,10 @@ def detect_url_and_make_link(incoming_string):
 
     incoming_string = pat1.sub(r'\1<a href="\2" target="_blank">\3</a>', incoming_string)
     incoming_string = pat2.sub(r'\1<a href="http:/\2" target="_blank">\3</a>', incoming_string)
-    # safe_string = cgi.escape(incoming_string)
+    safe_string = cgi.escape(incoming_string)
 
-    # return safe_string
-    return incoming_string
+    return safe_string
+    # return incoming_string
 
 @app.template_filter("extract_code")
 def extract_code(s):
