@@ -1,7 +1,7 @@
 {
-    "name": "Platipy chrome extension",
-    "version": "1.0",
-    "description": "enables inline commenting and favoriting for readthedocs documentation",
+    "name": "Platipy",
+    "version": "1.0.0",
+    "description": "Platipy is a chrome extension that enables developers to annotate and clarify confusing documentation.",
     "background": {
         "scripts": ["eventPage.js"],
         "persistent": false
