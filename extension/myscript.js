@@ -1,4 +1,4 @@
-var DOMAIN = "platipy.herokuapp.com";
+var DOMAIN = "www.platipy.com";
 // var DOMAIN = "localhost:5000";
 
 
