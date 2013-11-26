@@ -23,7 +23,7 @@
     "manifest_version": 2,
     "content_scripts": [
         {
-            "matches": ["http://docs.python.org/*", "http://*.readthedocs.org/*"],
+            "matches": ["http://docs.python.org/*", "http://*.readthedocs.org/*", "https://*.readthedocs.org/*"],
             "js": ["jquery.min.js", "jquery.iframeResizer.min.js", "md5.js", "myscript.js"]
         }
     ]
