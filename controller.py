@@ -166,11 +166,8 @@ def make_comment():
 def delete_comment():
     assert_is_authenticated()
     html_section = request.form.get("html_section")
-    print html_section
     comment_id = request.form.get("comment_id")
-    print comment_id
     user_id = get_user_id()
-    print user_id
 
     comment = model.session.query(model.Comment).filter_by(id=comment_id).first()
     print comment
@@ -280,17 +277,16 @@ def datefilter(dt):
 
 @app.template_filter("detect_url_and_make_link")
 def detect_url_and_make_link(incoming_string):
+    # jinja2.escape()
+    safe_string = cgi.escape(incoming_string)
+
     pat1 = re.compile(r"(^|[\n ])(([\w]+?://[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", re.IGNORECASE | re.DOTALL)
     pat2 = re.compile(r"(^|[\n ])(((www|ftp)\.[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", re.IGNORECASE | re.DOTALL)
 
-    incoming_string = pat1.sub(r'\1<a href="\2" target="_blank">\3</a>', incoming_string)
-    incoming_string = pat2.sub(r'\1<a href="http:/\2" target="_blank">\3</a>', incoming_string)
+    safe_string = pat1.sub(r'\1<a href="\2" target="_blank">\3</a>', safe_string)
+    safe_string = pat2.sub(r'\1<a href="http:/\2" target="_blank">\3</a>', safe_string)
 
-    # need to run cgi.escape on only the unaffected text
-    # safe_string = cgi.escape(incoming_string)
-
-    # return safe_string
-    return incoming_string
+    return safe_string
 
 @app.template_filter("extract_code")
 def extract_code(s):
