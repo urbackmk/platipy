@@ -37,6 +37,10 @@ p{
     padding-right: 50px;
 }
 
+.selected{
+    background-color: #ebebeb;
+}
+
 .sidebar{
     position:fixed;
     top:0;
