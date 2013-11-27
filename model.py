@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Text
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 import config
@@ -16,7 +16,7 @@ class Comment(Base):
     section_id = Column(Integer, ForeignKey('sections.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.datetime.now)
-    comment = Column(String(5000))
+    comment = Column(Text)
     sum_ratings = Column(Integer, default=0)
 
     user = relationship("User", backref="comment")
