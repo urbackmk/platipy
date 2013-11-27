@@ -1,7 +1,8 @@
 {
+    "manifest_version": 2,
     "name": "Platipy",
-    "version": "1.0.0",
     "description": "Platipy is a chrome extension that enables developers to annotate and clarify confusing documentation.",
+    "version": "1.0.0",
     "background": {
         "scripts": ["eventPage.js"],
         "persistent": false
@@ -11,8 +12,7 @@
         "default_icon" : "icons/platipy_icon-20.png", 
         "default_title": "Documentation Extension"
     },
-    //tabs permission needed for icon to show in url bar
-    "permissions" : [
+    "permissions": [
         "tabs",
         "http://*/"
     ],
@@ -20,7 +20,6 @@
         "48" : "icons/platipy_icon-48.png",
         "128" : "icons/platipy_icon-128.png"
     },
-    "manifest_version": 2,
     "content_scripts": [
         {
             "matches": ["http://docs.python.org/*", "http://*.readthedocs.org/*", "https://*.readthedocs.org/*"],

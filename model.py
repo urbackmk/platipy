@@ -16,7 +16,7 @@ class Comment(Base):
     section_id = Column(Integer, ForeignKey('sections.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.datetime.now)
-    comment = Column(String(255))
+    comment = Column(String(5000))
     sum_ratings = Column(Integer, default=0)
 
     user = relationship("User", backref="comment")
