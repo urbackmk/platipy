@@ -72,6 +72,24 @@ p{
     font-weight: 400;
 }
 
+.web-text{
+    text-align: center;
+    font-weight: 400;
+    font-family: "Montserrat", Helvetica, Arial, sans-serif;
+
+}
+.web-title{
+    color: #999999;
+    font-size: 40px;
+    margin-top: 20px;
+}
+
+.web-subtitle{
+    color: #999999;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
 .website-button{
     cursor: pointer;
 }

@@ -13,7 +13,7 @@
         <div class="container whole-thing">
 
             {# ---- favorites section ---- #}
-
+            {% if github_name %}
             <div>
                 <div style="float: left">
                     {% if section %}
@@ -49,6 +49,9 @@
                 {% endif %}
             </div>
             <br />
+            {% else %}
+            <br />
+            {% endif %}
 
             {# ---- comments section ---- #}
 
