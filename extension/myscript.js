@@ -85,6 +85,7 @@ var main = function(){
             var clickHandler = onInfoButtonClick($segmentElement, $sectionElement);
             $infoIcon.attr("src", "http://" + DOMAIN + "/static/images/info_icon_25px.png");
             $infoIcon.attr("style", "position: absolute; margin-left: -30px");
+            $infoIcon.attr("style", "cursor: pointer");
             $infoIcon.click(clickHandler);
             $(this).prepend($infoIcon);
 
