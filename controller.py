@@ -5,13 +5,10 @@ import model
 import datetime
 
 from requests_oauthlib import OAuth2Session
-from flask.json import jsonify
 import os
 import config
 import re
 import cgi
-import random
-import pprint
 
 from pygments import highlight
 from pygments.lexers import PythonLexer, guess_lexer
@@ -270,10 +267,6 @@ def assert_is_authenticated():
 @app.template_filter("datefilter")
 def datefilter(dt):
     return dt.strftime("%d %B %Y")
-
-# def encode_string_with_link(incoming_string):
-#     url_regex = re.compile(r"""((?:mailto:|ftp://|http://)[^ <>'"{}|\\^`[\]]*)""")
-#     return url_regex.sub(r'<a href="\1">\1</a>', incoming_string)
 
 @app.template_filter("detect_url_and_make_link")
 def detect_url_and_make_link(incoming_string):
