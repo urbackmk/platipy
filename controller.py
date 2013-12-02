@@ -28,7 +28,7 @@ authorization_base_url = 'https://github.com/login/oauth/authorize'
 token_url = 'https://github.com/login/oauth/access_token'
 
 
-# Call this when a user pushes a Sign In to Github button
+# Call this when a user pushes a "Sign In to Github" button
 @app.route("/authenticate")
 def authenticate():
     """Step 1: User Authentication
@@ -71,6 +71,7 @@ def fetch_github_name():
 
 @app.route("/return_to_last")
 def return_to_last():
+    """Github authorization callback URL"""
     obtain_access_token()
     github_name = fetch_github_name()
 
@@ -167,7 +168,6 @@ def delete_comment():
     user_id = get_user_id()
 
     comment = model.session.query(model.Comment).filter_by(id=comment_id).first()
-    print comment
     if user_id == comment.user.id:
         model.session.delete(comment)
         model.session.commit()
@@ -177,7 +177,7 @@ def delete_comment():
 
 @app.route("/favorite", methods=["POST"])
 def set_favorite():
-    """updates favorites table with section id and user id 
+    """Updates favorites table with section id and user id 
     and updates section table with number of favorites"""
 
     assert_is_authenticated()
@@ -202,7 +202,7 @@ def set_favorite():
 
 @app.route("/vote", methods=["POST"])
 def vote():
-    """adjusts rating of a comment according to upvote or downvote"""
+    """Adjusts rating of a comment according to upvote or downvote"""
     assert_is_authenticated()
     comment_id = request.form.get("comment_id")
     vote = request.form.get("vote")
@@ -232,8 +232,15 @@ def vote():
 
     return redirect(url_for('show_comments', html_section=html_section))
 
+
 @app.route("/num_comments")
 def send_num_comments():
+    """ This function corresponds to an ajax call in extension/myscript.js.  
+        Checks to see whether there are any comments on a given web page.  
+        Returns a json object - a dictionary of comments for the web page 
+        - where the keys are the html_section for a segment, 
+        and the value is the number of comments in that segment. """
+
     comments_dictionary = {}
     page_title = request.args.get("pageTitle")
     sections = model.session.query(model.Section).filter_by(page_title=page_title).all()
@@ -243,8 +250,6 @@ def send_num_comments():
             comments_dictionary[section.html_section] = len(section.comment)
 
     return json.dumps(comments_dictionary)
-    # return json.dumps({"name":"Meghan", "favorite_numbers":[1,2,3]})
-
 
 def get_user_id():
     if session.get('github_name'):
@@ -270,7 +275,6 @@ def datefilter(dt):
 
 @app.template_filter("detect_url_and_make_link")
 def detect_url_and_make_link(incoming_string):
-    # jinja2.escape()
     safe_string = cgi.escape(incoming_string)
 
     pat1 = re.compile(r"(^|[\n ])(([\w]+?://[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", re.IGNORECASE | re.DOTALL)

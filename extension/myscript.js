@@ -1,8 +1,6 @@
-var DOMAIN = "www.platipy.com";
-// var DOMAIN = "localhost:5000";
+// var DOMAIN = "www.platipy.com";
+var DOMAIN = "localhost:5000";
 
-
-//also needs to pass the text of the segment
 var createIframe = function(htmlSection, iframeId, $pageTitle, $sectionTitle, $segmentText){
     var $iframe = $('<iframe></iframe>');
     var encodedHtmlSection = encodeURIComponent(htmlSection);
@@ -69,14 +67,16 @@ var returnHtmlSection = function($segmentElement, $sectionElement){
                 ":" + md5($segmentElement.text());
     return htmlSection;
 };
-// "sectionElement" = <div class="section"></div>
-// "segmentElement" == a node that we're commenting on
+
 var infoIconCache = {};
 
+// "sectionElement" = <div class="section"></div>
+// "segmentElement" == a node that we're commenting on
 var main = function(){
     var $segmentElements = $(".section > p, .section > dl, .section > table, .section > ol, " +
           ".section > div.highlight-python, .section > ul, .section > .admonition, .section > blockquote");
     $segmentElements.each(function(index, element){
+        // if the segment is not a paragraph whose length is shorter than 100 characters:
         if (!($(this).text().length < 100 && $(this).is('p'))){
             var $sectionElement = $(this).parent();
             var $segmentElement = $(this);
@@ -108,6 +108,10 @@ var main = function(){
 
 main();
 
+/** ajax call to server to check whether any segments on the page have been commented on
+    the data received is a json object - a dictionary of comments for that webpage
+        the keys of the dictionary are html_sections and the values are the number of comments in that segment
+    turns the corresponding info icon green if a segment has any comments **/
 var changeInfoIconColor = function(){
     $.getJSON("http://" + DOMAIN + "/num_comments", {pageTitle: document.title} )
         .done(
