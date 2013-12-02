@@ -1,5 +1,5 @@
-// var DOMAIN = "www.platipy.com";
-var DOMAIN = "localhost:5000";
+var DOMAIN = "www.platipy.com";
+// var DOMAIN = "localhost:5000";
 
 var createIframe = function(htmlSection, iframeId, $pageTitle, $sectionTitle, $segmentText){
     var $iframe = $('<iframe></iframe>');
