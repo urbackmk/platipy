@@ -288,7 +288,7 @@ def detect_url_and_make_link(incoming_string):
 @app.template_filter("extract_code")
 def extract_code(s):
     return_string = ""
-    while len(s) > 0:
+    while len(s) > 0 and s.find("[code]") > -1:
         start_code = s.find("[code]")
         intro_text = s[:start_code]
         return_string += cgi.escape(intro_text)
@@ -299,6 +299,7 @@ def extract_code(s):
         return_string += pygmentsfilter(code)
 
         s = s[end_code+7:]
+        return_string += cgi.escape(s)
 
     return return_string
 

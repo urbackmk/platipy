@@ -6,6 +6,7 @@ github_oauth2.py
 plan_of_action.txt
 readthedocs_api_interface.py
 test_url_detector.py
+features.txt
 *.pyc
 *.db
 .*.swp

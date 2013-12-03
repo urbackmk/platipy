@@ -55,6 +55,23 @@
                     <li>Email me at <a href="mailto:meghan@meghanurback.com" target="_blank">meghan@meghanurback.com</a></li>
                 </ul>
             </div>
+
+            <div class="about-row row" id="use">
+                <h3>Use</h3>
+                <ul>
+                    <li>Visit any documentation page that has readthedocs in the URL.  The Platipy icon will appear in the URL bar to notify you that this page is loaded with the extension.</li>
+                        <ul>
+                            <li>Note: If the URL begins with https, you'll need to give the page permission to load the platipy script.</li>
+                        </ul>
+                    <img src="/static/images/instructions2_small.png"></img>
+                    <li>Look for a green "i" button to see if anyone has left comments on a particular section.  Click on the button to see the comments.</li>
+                    <img src="/static/images/instructions4_small.png"></img>
+                    <li>Click on an "i" button to insert a comment or favorite a section.  You'll need to log in to github in order to post.  Your comments will then be visible to all future chrome users who have the Platipy extension loaded.</li>
+                    <img src="/static/images/instructions1_small.png"></img>
+
+                </ul>
+            </div>
+
             {% if websites_dict %}
                 {% for website, pageDictionary in websites_dict|dictsort %}
                 <div id="website-{{loop.index}}" class="favorites-row row">
