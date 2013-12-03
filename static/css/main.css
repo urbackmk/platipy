@@ -27,6 +27,29 @@ body.landing-page{
     top: 0px;
 }
 
+#description{
+    line-height: 30px; 
+    text-align: center;
+}
+
+.instruction-image{
+    border-style: solid;
+    border-width: 1.5px;
+    padding: 5px;
+    margin: 15px;
+}
+
+.list-group-item a{
+    color:#000
+}
+
+.login{
+    position: absolute;
+    bottom: 0;
+    cursor: pointer;
+    margin-bottom: 7px;
+}
+
 .no-bullet{
     list-style-type: none;
 }
@@ -62,10 +85,6 @@ p{
     -webkit-transform:translate3d(0,0,0);
     -webkit-backface-visibility:hidden;
     -webkit-perspective:1000
-}
-
-.list-group-item a{
-    color:#000
 }
 
 .sidebar-text{

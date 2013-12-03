@@ -7,70 +7,123 @@
         <link href="/static/css/bootstrap.min.css" rel="stylesheet">
         <link href="/static/css/main.css" rel="stylesheet">
         <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-        <!-- <link href="/static/css/pygments-highlight.css" rel="stylesheet"> -->
     </head>
 
     <body style="margin-left: 50px">
+
+        {# ---- sidebar ---- #}
+
         <div class="sidebar" role="navigation">
             <div>
                 <p class="web-text web-title">PLATIPY</p>
                 <p class="web-text web-subtitle" style="font-size: 14px">making docs more useful</p>
             </div>
+            {% if github_name %}
             <div class="list-group">
                 <a class="list-group-item" id="about-button">About</a>
             </div>
-            {% if github_name %}
-                <span class="sidebar-text">
-                    Favorites for {{github_name}}</span>
-                <div class="list-group">
-                    {% for website, pageDictionary in websites_dict|dictsort %}
-                    <a class="website-button list-group-item" 
-                        id="website-link-{{loop.index}}">{{website}}</a>
-                    {% endfor %}
-                </div>
-            {% endif %}
+            <span class="sidebar-text">
+                Favorites for {{github_name}}</span>
+            <div class="list-group">
+                {% for website, pageDictionary in websites_dict|dictsort %}
+                <a class="website-button list-group-item" 
+                    id="website-link-{{loop.index}}">{{website}}</a>
+                {% endfor %}
+            </div>
+            <span class="sidebar-text">
+                <a class="login" href="/clear?html_section=/">Log out</a>
+            </span>
 
-<!--             {% if github_name == None%}
-            <p><a class="sidebar-text" href="/authenticate">Log in</a> to view your favorites</p>
-            {% endif %} -->
+            {% else %}
+            <div class="sidebar-text">
+                <form 
+                    method="GET"
+                    action="/authenticate"
+                    target="_top">
+                    <input type="hidden" name="html_section" value="/"></input>
+                    <button type="submit" class="btn btn-default btn-sm login">
+                        <img src="/static/images/octocat.png"></img>
+                        Log in
+                    </button>
+                </form>
+            </div>
+            {% endif %}
         </div>
+
+
+        {# ---- right of sidebar ---- #}
 
         <div class="right-of-sidebar">
             <div class="about-row row" id="about">
-                <h3>About</h3>
-                <p>Platipy is a chrome extension that enables developers to annotate and clarify confusing documentation.</p>
-                <p>Sifting through documentation can often be a painful process and updating documentation is sometimes very slow. Platipy works with all documentation hosted by Read the Docs and enables developers to insert comments and example code directly into a portion of the documentation that could use clarification.  Users can favorite sections of documentation and pose questions to other users. These comments and questions can then be seen by all future developers who come to a piece of documentation looking for answers or implementation assistance.</p>
-                <p>Platipy is written in Python, Flask, Javascript, SQLAlchemy, Jinja, HTML and CSS, and uses Github's OAuth API for user authentication. The Pygments python library is used for syntax highlighting. The backend is powered by a Postgres database hosted on Heroku.</p>
+                <h3 id="description">
+                    Platipy is a chrome extension that enables developers 
+                    to annotate and clarify confusing documentation.</h3>
             </div>
-
+            <br />
             <div class="about-row row" id="install">
-                <h3>Install</h3>
-                <p><a href="https://chrome.google.com/webstore/detail/platipy-making-docs-more/iaoaacoiaiiaighgejpljbobdjbpnkbb?hl=en&gl=US" target="_blank">Platipy</a> is now available in the Chrome Web Store!</p>
+                <form 
+                    action="https://chrome.google.com/webstore/detail/
+                    platipy-making-docs-more/iaoaacoiaiiaighgejpljbobdjbpnkbb?hl=en&gl=US" 
+                    target="_blank" 
+                    style="text-align: center">
+                    <button type="submit" class="btn btn-default btn-lg">
+                        Download now from the Chrome Web Store
+                    </button>
+                </form>
             </div>
+            <br />
+            <br />
 
             <div class="about-row row" id="contact">
                 <h3>Contact</h3>
                 <ul>
-                    <li>Read the code for this extension on <a href="http://www.github.com/urbackmk/platipy" target="_blank">github</a></li>
-                    <li>Email me at <a href="mailto:meghan@meghanurback.com" target="_blank">meghan@meghanurback.com</a></li>
+                    <li>Read the code for this extension on 
+                        <a href="http://www.github.com/urbackmk/platipy" target="_blank">
+                            github
+                        </a>
+                    </li>
+                    <li>Email me at 
+                        <a href="mailto:meghan@platipy.com" target="_blank">
+                            meghan@platipy.com
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="about-row row" id="top-sites">
+                <h3>Top sites using Platipy</h3>
+                <ul>
+                    <li><a href="http://docs.python.org/2/library/" target="_blank">Python 2.7</a></li>
+                    <li><a href="http://flask.readthedocs.org/en/latest/" target="_blank">Flask</a></li>
+                    <li><a href="http://jinja2.readthedocs.org/en/latest/" target="_blank">Jinja2</a></li>
+                    <li><a href="http://pygments-doc.readthedocs.org/en/latest/" target="_blank">Pygments</a></li>
                 </ul>
             </div>
 
             <div class="about-row row" id="use">
-                <h3>Use</h3>
+                <h3>How it works</h3>
                 <ul>
-                    <li>Visit any documentation page that has readthedocs in the URL.  The Platipy icon will appear in the URL bar to notify you that this page is loaded with the extension.</li>
+                    <li>Visit any documentation page that has readthedocs in the URL.  
+                        The Platipy icon will appear in the URL bar to notify 
+                        you that this page is loaded with the extension.</li>
                         <ul>
-                            <li>Note: If the URL begins with https, you'll need to give the page permission to load the platipy script.</li>
+                            <li>Note: If the URL begins with https, 
+                                you'll need to give the page permission to load the platipy script.</li>
                         </ul>
-                    <img src="/static/images/instructions2_small.png"></img>
-                    <li>Look for a green "i" button to see if anyone has left comments on a particular section.  Click on the button to see the comments.</li>
-                    <img src="/static/images/instructions4_small.png"></img>
-                    <li>Click on an "i" button to insert a comment or favorite a section.  You'll need to log in to github in order to post.  Your comments will then be visible to all future chrome users who have the Platipy extension loaded.</li>
-                    <img src="/static/images/instructions1_small.png"></img>
+                    <img class="img-rounded instruction-image" src="/static/images/instructions2_small.png"></img>
+                    <li>Look for a green "i" button to see if anyone has left comments on a particular section.  
+                        Click on the button to see the comments.</li>
+                    <img class="img-rounded instruction-image" src="/static/images/instructions4_small.png"></img>
+                    <li>Click on an "i" button to insert a comment or favorite a section.  
+                        You'll need to log in to github in order to post.  
+                        Your comments will then be visible to all future chrome users 
+                        who have the Platipy extension loaded.</li>
+                    <img class="img-rounded instruction-image" src="/static/images/instructions1_small.png"></img>
 
                 </ul>
             </div>
+
+            {# ---- favorites ---- #}
 
             {% if websites_dict %}
                 {% for website, pageDictionary in websites_dict|dictsort %}
@@ -81,7 +134,7 @@
                         <ul class="no-bullet">
                             <li><h5>{{sectionTitle}}</h5>
                             {% for tuple in segmentList|sort %}
-                                <p><a class="text-muted" style="color: #999999 ! important" href="{{tuple[1]}}" target="_blank">{{tuple[0]|safe}}</a></p>
+                                <p><a class="text-muted" href="{{tuple[1]}}" target="_blank">{{tuple[0]|safe}}</a></p>
                             {% endfor %}
                             </li>
                         </ul>

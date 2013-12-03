@@ -85,8 +85,9 @@ def log_out():
 
 @app.route("/clear")
 def clear():
+    html_section = request.args.get('html_section')
     session.clear()
-    return redirect("/comment")
+    return redirect(html_section)
 
 @app.route("/")
 def landing_page():
