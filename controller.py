@@ -299,7 +299,7 @@ def extract_code(s):
         return_string += pygmentsfilter(code)
 
         s = s[end_code+7:]
-        return_string += cgi.escape(s)
+    return_string += cgi.escape(s)
 
     return return_string
 
