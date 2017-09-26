@@ -7,8 +7,6 @@ Platipy works with all documentation hosted by Read the Docs and enables develop
 
 Platipy is written in Python, Javascript, HTML and CSS.  It uses Flask as a web framework and Jinja as a template engine.  Github's OAuth API enables user authentication.  The Pygments python library is used for syntax highlighting.  The backend uses SQLAlchemy to interface with a Postgres database hosted on Heroku.
 
-Directions for installing the extension can be found here: www.platipy.com
-
 ###Extension files
 
 **manifest.json** contains information about the extension.  Platipy is a page-action extension.  The web pages that it acts on are specified in the **content scripts** section.  Because the extension makes cross-domain ajax calls from many websites to my server, I list all websites under **permissions**.
